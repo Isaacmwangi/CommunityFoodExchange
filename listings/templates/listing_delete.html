@@ -1,0 +1,12 @@
+<!-- listings/templates/listings/listing_delete.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>Delete Listing</h1>
+<p>Are you sure you want to delete this listing?</p>
+<p><strong>Item Name:</strong> {{ listing.item_name }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+{% endblock %}

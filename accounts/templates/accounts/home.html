@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>Welcome to Community Food Exchange</h1>
+<p>This is a platform where you can exchange your surplus food items with other community members.</p>
+<p>Explore the listings, send exchange requests, chat with other users, and join community events.</p>
+<div class="listings">
+    <h2>Featured Listings</h2>
+    <ul>
+        {% for listing in featured_listings %}
+        <li>
+            <img src="{{ listing.image }}" alt="{{ listing.item_name }}">
+            <h3>{{ listing.item_name }}</h3>
+            <p>{{ listing.description }}</p>
+            <p>Quantity: {{ listing.quantity }}</p>
+            <p>Expiration Date: {{ listing.expiration_date }}</p>
+            <p>Posted by: {{ listing.user.username }}</p>
+            <a href="{% url 'listing_detail' listing.id %}">View Details</a>
+            <a href="{% url 'exchange_request' listing.id %}">Send Exchange Request</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="events">
+    <h2>Upcoming Events</h2>
+    <ul>
+        {% for event in upcoming_events %}
+        <li>
+            <h3>{{ event.event_name }}</h3>
+            <p>{{ event.description }}</p>
+            <p>Date: {{ event.date }}</p>
+            <p>Location: {{ event.location }}</p>
+            <a href="{% url 'event_detail' event.id %}">View Details</a>
+            <a href="{% url 'event_rsvp' event.id %}">RSVP</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

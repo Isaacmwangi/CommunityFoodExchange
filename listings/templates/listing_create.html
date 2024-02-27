@@ -1,0 +1,11 @@
+<!-- listings/templates/listings/listing_create.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>Create Listing</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Listing</button>
+</form>
+{% endblock %}

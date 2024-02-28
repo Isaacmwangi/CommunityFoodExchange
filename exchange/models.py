@@ -1,10 +1,12 @@
+# exchange/models.py
+
 from django.db import models
 from django.contrib.auth.models import User
 from listings.models import Listing
 
 class ExchangeRequest(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exchange_sent_requests')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exchange_received_requests')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     message = models.TextField()
     status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])

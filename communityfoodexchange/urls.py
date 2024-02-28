@@ -16,12 +16,25 @@ Including another URLconf
 """
 # communityfoodexchange/urls.py
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
 from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('', views.home, name='home'),  # Ensure the home view is included with the URL pattern
+    path('', views.home, name='home'),
+    path('listings/', include('listings.urls')),  # Include the listings URLs
+    path('exchange/', include('exchange.urls')),  # Include the exchange URLs
+    path('messaging/', include('messaging.urls')),  # Include the messaging URLs
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Define the handler404 view
+handler404 = 'accounts.views.custom_404_view'
+
+

@@ -1,13 +1,20 @@
+# messaging/models.py
 from django.db import models
 from django.contrib.auth.models import User
-from listings.models import Listing
+
+class Conversation(models.Model):
+    participants = models.ManyToManyField(User, related_name='conversations')
 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.sender} to {self.receiver}: {self.content}'
+    is_read = models.BooleanField(default=False)
+    MESSAGE_TYPES = (
+        ('ER', 'Exchange Request'),
+        ('IA', 'Item Added'),
+        ('DM', 'Direct Message'),
+        ('CM', 'Channel Message'),
+    )
+    message_type = models.CharField(max_length=2, choices=MESSAGE_TYPES, default='DM')

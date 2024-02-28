@@ -11,3 +11,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class UserWithUnreadMessagesCount(User):
+    @property
+    def unread_messages_count(self):
+        return Message.objects.filter(conversation__participants=self, read=False).count()

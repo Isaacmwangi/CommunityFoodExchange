@@ -1,12 +1,11 @@
-<!-- profile_update.html -->
+<!-- accounts/templates/accounts/profile_update.html -->
 
 {% extends 'accounts/base.html' %}
-
 {% block content %}
-<h1>Update Profile</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update Profile</button>
-</form>
+    <h1>Update Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Profile</button>
+    </form>
 {% endblock %}

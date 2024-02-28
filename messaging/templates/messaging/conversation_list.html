@@ -1,0 +1,14 @@
+<!-- messaging/templates/messaging/conversation_list.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>Conversations</h1>
+<ul>
+    {% for conversation in conversations %}
+    <li><a href="{% url 'conversation_detail' conversation.id %}">{{ conversation }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
+

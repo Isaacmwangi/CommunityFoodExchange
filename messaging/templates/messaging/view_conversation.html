@@ -1,0 +1,11 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Conversation</h1>
+<ul>
+    {% for message in messages %}
+    <li>{{ message.sender.username }} - {{ message.timestamp }}: {{ message.content }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'send_message' conversation_id=conversation.id %}">Reply</a>
+{% endblock %}

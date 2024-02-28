@@ -1,38 +1,67 @@
+<!-- accounts/templates/accounts/home.html -->
+
 {% extends 'accounts/base.html' %}
+{% load static %}
 {% block content %}
-<h1>Welcome to Community Food Exchange</h1>
-<p>This is a platform where you can exchange your surplus food items with other community members.</p>
-<p>Explore the listings, send exchange requests, chat with other users, and join community events.</p>
-<div class="listings">
-    <h2>Featured Listings</h2>
-    <ul>
-        {% for listing in featured_listings %}
-        <li>
-            <img src="{{ listing.image }}" alt="{{ listing.item_name }}">
-            <h3>{{ listing.item_name }}</h3>
-            <p>{{ listing.description }}</p>
-            <p>Quantity: {{ listing.quantity }}</p>
-            <p>Expiration Date: {{ listing.expiration_date }}</p>
-            <p>Posted by: {{ listing.user.username }}</p>
-            <a href="{% url 'listing_detail' listing.id %}">View Details</a>
-            <a href="{% url 'exchange_request' listing.id %}">Send Exchange Request</a>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="hero-section">
+    <h1>Welcome to Community Food Exchange</h1>
+    <p>This is a platform where you can exchange your surplus food items with other community members.</p>
+    <p>Explore the listings, send exchange requests, chat with other users, and join community events.</p>
 </div>
-<div class="events">
-    <h2>Upcoming Events</h2>
-    <ul>
-        {% for event in upcoming_events %}
-        <li>
-            <h3>{{ event.event_name }}</h3>
-            <p>{{ event.description }}</p>
-            <p>Date: {{ event.date }}</p>
-            <p>Location: {{ event.location }}</p>
-            <a href="{% url 'event_detail' event.id %}">View Details</a>
-            <a href="{% url 'event_rsvp' event.id %}">RSVP</a>
-        </li>
-        {% endfor %}
-    </ul>
+
+<div class="container">
+    <section class="listings-section">
+        <h2>Featured Listings</h2>
+        <div class="listings-grid">
+            {% for listing in featured_listings %}
+            <div class="listing-card">
+                <img src="{{ listing.image.url }}" alt="{{ listing.item_name }}">
+                <div class="listing-details">
+                    <h3>{{ listing.item_name }}</h3>
+                    <p>{{ listing.description }}</p>
+                    <p>Quantity: {{ listing.quantity }}</p>
+                    <p>Expiration Date: {{ listing.expiration_date }}</p>
+                    <p>Posted by: {{ listing.user.username }}</p>
+                    <div class="actions">
+                        <a href="{% url 'listing_detail' listing.id %}">View Details</a>
+                        <a href="{% url 'send_exchange_request' listing.id %}">Send Exchange Request</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="create-listing">
+            <a href="{% url 'listing_create' %}"> Add an Item</a>
+        </div>
+    </section>
+
+    <section class="events-section">
+        <h2>Upcoming Events</h2>
+        <ul class="events-list">
+            {% for event in upcoming_events %}
+            <li>
+                <h3>{{ event.event_name }}</h3>
+                <p>{{ event.description }}</p>
+                <p>Date: {{ event.date }}</p>
+                <p>Location: {{ event.location }}</p>
+                <div class="event-actions">
+                    <a href="{% url 'event_detail' event.id %}">View Details</a>
+                    <a href="{% url 'event_rsvp' event.id %}">RSVP</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Display latest messages -->
+    <section class="latest-messages-section">
+        <h2>Latest Messages</h2>
+        {% if unread_messages_count > 0 %}
+        <div class="notification">
+            You have {{ unread_messages_count }} unread messages.
+        </div>
+        {% endif %}
+    </section>
 </div>
+
 {% endblock %}

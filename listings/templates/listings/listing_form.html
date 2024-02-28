@@ -1,0 +1,13 @@
+<!-- listing_form.html -->
+<!-- listings/templates/listings/listing_form.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>{{ form.instance.pk|default:"Create" }} Listing</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

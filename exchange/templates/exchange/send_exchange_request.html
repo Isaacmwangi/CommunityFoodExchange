@@ -1,0 +1,13 @@
+<!-- exchange/templates/exchange/send_exchange_request.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Send Exchange Request</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="receiver_id" value="{{ receiver_id }}">  <!-- Hidden input for receiver ID -->
+    <button type="submit">Send Exchange Request</button>
+</form>
+{% endblock %}

@@ -1,9 +1,10 @@
-# listings/templates/listings/listing_confirm_delete.html
+<!-- listing_confirm_delete.html -->
+<!-- listings/templates/listings/listing_confirm_delete.html -->
 
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-<h1>Delete Listing</h1>
+<h1>Confirm Deletion</h1>
 <p>Are you sure you want to delete "{{ listing.item_name }}"?</p>
 <form method="post">
     {% csrf_token %}

@@ -1,0 +1,31 @@
+<!-- exchange/templates/exchange/exchange_requests.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Exchange Requests</h1>
+<div class="sent-requests">
+    <h2>Sent Requests</h2>
+    <ul>
+        {% for request in sent_requests %}
+        <li>
+            <p>Listing: {{ request.listing.item_name }}</p>
+            <p>Status: {{ request.status }}</p>
+            <p>Message: {{ request.message }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="received-requests">
+    <h2>Received Requests</h2>
+    <ul>
+        {% for request in received_requests %}
+        <li>
+            <p>Listing: {{ request.listing.item_name }}</p>
+            <p>Status: {{ request.status }}</p>
+            <p>Message: {{ request.message }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

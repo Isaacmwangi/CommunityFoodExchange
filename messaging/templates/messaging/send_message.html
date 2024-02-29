@@ -1,13 +1,14 @@
 <!-- messaging/templates/messaging/send_message.html -->
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1>Send Message</h1>
-<form method="post" class="message-form">
-    {% csrf_token %}
-    <div class="message-input">
-        <input type="file" name="file" id="file" class="file-input">
-        {{ form.as_p }}
-    </div>
-    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
-</form>
+<div class="send-message">
+    <h1>Send Message</h1>
+    <form method="post" class="message-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="quoted_message_id" id="quoted_message_id">
+        <textarea name="content" placeholder="Type your message here..."></textarea>
+        <input type="file" name="file">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
+    </form>
+</div>
 {% endblock %}

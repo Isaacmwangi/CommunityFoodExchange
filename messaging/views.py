@@ -16,7 +16,7 @@ def conversation_detail(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
     if request.user not in conversation.participants.all():
         return redirect('conversation_list')
-    messages = conversation.messages.all()
+    messages = conversation.messages.all().order_by('timestamp')
     # Mark messages as read when viewing the conversation detail
     for message in messages:
         if message.sender != request.user:
@@ -38,3 +38,6 @@ def send_message(request, conversation_id):
     else:
         form = MessageForm()
     return render(request, 'messaging/send_message.html', {'form': form})
+
+
+

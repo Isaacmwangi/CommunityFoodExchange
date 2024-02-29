@@ -9,6 +9,7 @@ class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     content = models.TextField()
+    file = models.FileField(upload_to='message_files/', blank=True, null=True)  # Add this line for file attachments
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     MESSAGE_TYPES = (

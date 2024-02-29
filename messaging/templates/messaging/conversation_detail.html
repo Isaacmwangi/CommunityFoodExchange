@@ -1,23 +1,21 @@
-<!-- messaging/templates/messaging/conversation_detail.html -->
-
 {% extends 'accounts/base.html' %}
 {% block content %}
 <div class="conversation-detail">
     <h1>Conversation with: {{ conversation.other_user }}</h1>
     <div class="message-list">
-        {% with None as last_weekday %}
+        {% with None as last_date %}
             {% for message in messages %}
-                {% if message.timestamp|date:"l" != last_weekday %}
+                {% if message.timestamp.date != last_date %}
                     <div class="date-divider">{{ message.timestamp|date:"l, F j, Y" }}</div>
-                    {% with message.timestamp|date:"l" as last_weekday %}
+                    {% with message.timestamp.date as last_date %}
                     {% endwith %}
                 {% endif %}
                 <div class="message-item {% if message.sender == user %}sent{% else %}received{% endif %}">
-                    {% if message.sender != user %}
-                        <div class="message-sender">{{ message.sender.username }}</div>
-                    {% endif %}
                     <div class="message-header">
-                        <div class="message-timestamp">{{ message.timestamp|time }}</div>
+                        {% if message.sender != user %}
+                            <span class="message-sender">{{ message.sender.username }}</span>
+                        {% endif %}
+                        <span class="message-timestamp">{{ message.timestamp|time }}</span>
                     </div>
                     <div class="message-content">
                         {% if message.file %}
@@ -25,20 +23,11 @@
                                 <a href="{{ message.file.url }}" target="_blank">{{ message.file.name }}</a>
                             </div>
                         {% endif %}
+                        {% if message.content %}
+                            <p>{{ message.content }}</p>
+                        {% endif %}
                         {% if message.image %}
                             <img src="{{ message.image.url }}" alt="Attached Image">
-                        {% endif %}
-                        {% if message.audio %}
-                            <audio controls>
-                                <source src="{{ message.audio.url }}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        {% endif %}
-                        <p>{{ message.content }}</p>
-                    </div>
-                    <div class="message-actions">
-                        {% if message.sender != user %}
-                            <button class="btn btn-reply">Reply</button>
                         {% endif %}
                     </div>
                 </div>
@@ -47,8 +36,9 @@
     </div>
     <form method="post" action="{% url 'send_message' conversation.id %}" class="message-form" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="file" name="file">
+        <input type="hidden" name="quoted_message_id" id="quoted_message_id">
         <textarea name="content" placeholder="Type your message here..."></textarea>
+        <input type="file" name="file">
         <button type="submit" class="btn btn-send"><i class="fas fa-paper-plane"></i> Send</button>
     </form>
 </div>

@@ -53,6 +53,33 @@
         </ul>
     </section>
 
+    <!-- Display exchange requests -->
+    <section class="exchange-requests-section">
+        <h2>Exchange Requests</h2>
+        <ul>
+            {% for request in exchange_requests %}
+            <li>
+                <p>Listing: {{ request.listing.item_name }}</p>
+                <p>Status: {{ request.status }}</p>
+                <p>Message: {{ request.message }}</p>
+                {% if user == request.listing.user %}
+                    {% if request.status == 'Pending' %}
+                        <form method="post" action="{% url 'accept_exchange_request' request.listing.pk request.pk %}">
+                            {% csrf_token %}
+                            <button type="submit">Accept</button>
+                        </form>
+                        <form method="post" action="{% url 'cancel_exchange_request' request.listing.pk request.pk %}">
+                            {% csrf_token %}
+                            <button type="submit">Cancel</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    
+
     <!-- Display latest messages -->
     <section class="latest-messages-section">
         <h2>Latest Messages</h2>

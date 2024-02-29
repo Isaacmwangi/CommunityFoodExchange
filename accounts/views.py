@@ -8,12 +8,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from .models import Profile
-from django.contrib.auth import logout  # Import logout function
-from listings.models import Listing  # Import the Listing model
-from django.db.models import Count
-from messaging.models import Message
-
-
+from django.contrib.auth import logout  
+from listings.models import Listing  
+from exchange.models import ExchangeRequest 
+from messaging.models import Message 
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
 
@@ -86,7 +84,8 @@ def home(request):
     featured_listings = Listing.objects.all()  # Fetch all listings
     upcoming_events = []  # Assuming you have logic to retrieve upcoming events
     unread_messages_count = Message.objects.filter(conversation__participants=request.user, is_read=False).count()
-    return render(request, 'accounts/home.html', {'featured_listings': featured_listings, 'upcoming_events': upcoming_events, 'unread_messages_count': unread_messages_count})
+    exchange_requests = ExchangeRequest.objects.filter(receiver=request.user)  # Fetch exchange requests
+    return render(request, 'accounts/home.html', {'featured_listings': featured_listings, 'upcoming_events': upcoming_events, 'unread_messages_count': unread_messages_count, 'exchange_requests': exchange_requests})
 
 
 

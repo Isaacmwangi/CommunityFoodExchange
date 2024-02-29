@@ -1,6 +1,4 @@
-<!-- listing_detail.html -->
-<!-- listings/templates/listings/listing_detail.html -->
-
+<!--  listings/templates/listings/listing_detail.html -->
 
 {% extends 'accounts/base.html' %}
 {% block content %}
@@ -12,5 +10,21 @@
 <p>Posted by: {{ listing.user.username }}</p>
 {% if user.is_authenticated and user == listing.user %}
     <a href="{% url 'listing_update' listing.id %}">Update</a>
+    <form method="post" action="{% url 'listing_delete' listing.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+{% else %}
+    {% if user.is_authenticated %}
+        {% if not has_sent_request %}  <!-- Use the has_sent_request variable -->
+            <form method="post" action="{% url 'send_exchange_request' listing.id %}">
+                {% csrf_token %}
+                <button type="submit">Send Exchange Request</button>
+            </form>
+        {% else %}
+            <!-- Display a message saying that the user has already sent a request -->
+            <p>You have already sent a request for this item.</p>
+        {% endif %}
+    {% endif %}
 {% endif %}
-{% endblock %}
+{% endblock %}  <!-- Ensure that the block tag is closed -->

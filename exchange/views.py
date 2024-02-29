@@ -30,3 +30,4 @@ def exchange_requests(request):
     received_requests = ExchangeRequest.objects.filter(receiver=request.user)
     return render(request, 'exchange/exchange_requests.html', {'sent_requests': sent_requests, 'received_requests': received_requests})
 
+

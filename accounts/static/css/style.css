@@ -238,9 +238,13 @@
 }
 
 
+/* accounts/static/css/style.css */
+
+/* Add your styles here */
 .message-item {
     margin-bottom: 20px;
     overflow: hidden;
+    clear: both;
 }
 
 .date-divider {
@@ -250,27 +254,8 @@
     color: #888;
 }
 
-.message-content {
-    margin-top: 5px;
-    position: relative;
-}
-
-.sent .message-content {
-    float: right;
-    margin-left: auto;
-    background-color: #007bff;
-    color: #fff;
-}
-
-.received .message-content {
-    float: left;
-    margin-right: auto;
-    background-color: #f0f0f0;
-}
-
-.message-text {
-    padding: 10px;
-    border-radius: 10px;
+.message-header {
+    margin-bottom: 5px;
 }
 
 .message-sender {
@@ -279,20 +264,51 @@
 
 .message-timestamp {
     color: #888;
-    display: block;
-    clear: both;
+    margin-left: 10px;
+}
+
+.message-content {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+.sent .message-content {
+    float: right;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.file {
+    margin-top: 10px;
+}
+
+.file a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.file a:hover {
+    text-decoration: underline;
 }
 
 .message-form {
     margin-top: 20px;
 }
 
-.message-form textarea,
-.message-form input[type="file"] {
-    float: left;
-    margin-right: 10px;
+.message-input {
+    position: relative;
 }
 
-.message-form .btn-send {
+.file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+}
+
+.btn-send {
     float: right;
+    margin-top: 10px;
 }

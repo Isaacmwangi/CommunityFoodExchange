@@ -1,7 +1,8 @@
 # messaging/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Conversation
+from .models import Conversation, Message
 from .forms import MessageForm
 from django.contrib.auth.models import User
 
@@ -27,7 +28,7 @@ def conversation_detail(request, conversation_id):
 def send_message(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
     if request.method == 'POST':
-        form = MessageForm(request.POST)
+        form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user

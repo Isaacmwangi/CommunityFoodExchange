@@ -1,8 +1,9 @@
 # messaging/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Conversation, Message
+from .models import Conversation
 from .forms import MessageForm
+from django.contrib.auth.models import User
 
 @login_required
 def conversation_list(request):
@@ -24,9 +25,7 @@ def conversation_detail(request, conversation_id):
 
 @login_required
 def send_message(request, conversation_id):
-    conversation = get_object_or_404(Conversation, id=conversation_id)
-    if request.user not in conversation.participants.all():
-        return redirect('conversation_list')
+    conversation = get_object_or_404(Conversation, pk=conversation_id)
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -34,7 +33,7 @@ def send_message(request, conversation_id):
             message.sender = request.user
             message.conversation = conversation
             message.save()
-            return redirect('conversation_detail', conversation_id=conversation.id)
+            return redirect('conversation_detail', conversation_id=conversation_id)
     else:
         form = MessageForm()
     return render(request, 'messaging/send_message.html', {'form': form})

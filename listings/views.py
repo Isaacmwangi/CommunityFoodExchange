@@ -90,76 +90,7 @@ def listing_detail(request, pk):
     return render(request, 'listings/listing_detail.html', {'listing': listing, 'exchange_requests': exchange_requests, 'is_owner': is_owner, 'can_request': can_request, 'has_sent_request': has_sent_request})
 
 
-@login_required
-def manage_exchange_requests(request, pk):
-    listing = get_object_or_404(Listing, pk=pk)
-    exchange_requests = ExchangeRequest.objects.filter(listing=listing)
-    is_owner = listing.user == request.user
 
-    if not is_owner:
-        return redirect('home')  # Only listing owner can manage requests
-
-    if request.method == 'POST':
-        request_id = request.POST.get('request_id')
-        action = request.POST.get('action')
-
-        if action == 'accept':
-            exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-            # Handle accepting the request (you can set status or do additional actions)
-            exchange_request.status = 'Accepted'
-            exchange_request.save()
-            messages.success(request, 'Request accepted successfully.')
-
-        elif action == 'message':
-            exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-            # Redirect to a messaging view with the appropriate conversation
-            # Example: return HttpResponseRedirect(reverse('send_message', kwargs={'conversation_id': exchange_request.conversation.id}))
-
-        elif action == 'delete':
-            exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-            exchange_request.delete()
-            messages.success(request, 'Request deleted successfully.')
-
-        return HttpResponseRedirect(reverse('listing_detail', kwargs={'pk': pk}))
-
-    return render(request, 'listings/manage_exchange_requests.html', {'listing': listing, 'exchange_requests': exchange_requests})
-
-@login_required
-def accept_exchange_request(request, pk, request_id):
-    # Fetch the listing and the exchange request
-    listing = get_object_or_404(Listing, pk=pk)
-    exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-
-    # Check if the request is for the current user's listing
-    if exchange_request.listing != listing or listing.user != request.user:
-        return redirect('home')
-
-    # Update the status of the exchange request to accepted
-    exchange_request.status = 'Accepted'
-    exchange_request.save()
-
-    # Create a conversation for the exchange
-    conversation = Conversation.objects.create()
-    conversation.participants.add(request.user, exchange_request.sender)
-
-    # Redirect to the conversation detail view
-    return redirect('conversation_detail', conversation_id=conversation.id)
-
-
-@login_required
-def cancel_exchange_request(request, pk, request_id):
-    # Fetch the listing and the exchange request
-    listing = get_object_or_404(Listing, pk=pk)
-    exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-
-    # Check if the request is for the current user's listing
-    if exchange_request.listing != listing or listing.user != request.user:
-        return redirect('home')
-
-    # Delete the exchange request
-    exchange_request.delete()
-
-    return redirect('home')
 
 class ListingDeleteView(DeleteView):
     model = Listing

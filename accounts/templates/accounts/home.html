@@ -64,14 +64,15 @@
 
     <!-- Display latest messages -->
     <section class="latest-messages-section">
-        <h2>Latest Messages</h2>
+        <h2>Your Messages</h2>
         {% if unread_messages_count > 0 %}
         <div class="notification">
             <a href="{% url 'exchange_requests' %}">
-                <img src="{% static 'img/bell_icon.png' %}" alt="Bell Icon">
+                <i class="bi bi-bell-fill"></i>
                 {% if exchange_requests %}
-                    <span class="badge">{{ exchange_requests|length }}</span>
+                    <span class="badge">{{ unread_messages_count }}</span>
                 {% endif %}
+                <span class="message-prompt">Requests</span>
             </a>
         </div>
         {% endif %}

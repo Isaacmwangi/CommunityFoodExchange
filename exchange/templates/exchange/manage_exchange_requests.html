@@ -1,0 +1,38 @@
+<!-- exchange/templates/exchange/manage_exchange_requests.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<h1>Manage Exchange Requests</h1>
+{% if exchange_requests %}
+    <ul>
+    {% for request in exchange_requests %}
+        <li>
+            From: {{ request.sender }}
+            <p>Status: 
+                {% if request.status == 'Accepted' %}
+                    <span class="accepted">Accepted</span>
+                {% elif request.status == 'Rejected' %}
+                    <span class="rejected">Rejected</span>
+                {% elif request.status == 'Cancelled' %}
+                    <span class="cancelled">Cancelled</span>
+                {% else %}
+                    Pending
+                {% endif %}
+            </p>
+            {% if request.status != 'Cancelled' %}
+            <form method="post" action="{% url 'manage_exchange_requests' listing.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <button type="submit" name="action" value="accept">Accept</button>
+                <button type="submit" name="action" value="reject">Reject</button>
+                <button type="submit" name="action" value="message">Message</button>
+                <button type="submit" name="action" value="cancel">Cancel</button>
+            </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No exchange requests yet.</p>
+{% endif %}
+{% endblock %}

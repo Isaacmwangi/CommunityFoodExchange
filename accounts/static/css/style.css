@@ -79,6 +79,220 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.notification img.bell-icon {
+    margin-right: 10px;
+    height: 20px; /* Adjust as needed */
+}
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.message-prompt {
+    margin-left: auto;
+}
+
+/* styles for the "cancelled" status */
+.cancelled {
+    color: red;
+    text-decoration: line-through;
 }
 
 
+.conversation-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.conversation-item {
+    margin-bottom: 10px;
+}
+
+.message-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.message-item {
+    margin-bottom: 20px;
+}
+
+.message-sender {
+    font-weight: bold;
+}
+
+.message-timestamp {
+    margin-left: 10px;
+    color: #888;
+}
+
+.message-content {
+    margin-top: 5px;
+}
+
+.message-form {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+.btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn.update-btn {
+    background-color: #28a745;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.accepted {
+    color: green;
+}
+
+.rejected {
+    color: red;
+}
+
+.action-buttons {
+    display: inline-block;
+}
+
+.action-buttons form,
+.update-btn {
+    text-decoration: none; 
+    display: inline-block;
+    margin-right: 10px; 
+}
+
+/* icons to buttons */
+.btn i {
+    margin-right: 5px;
+}
+
+/* Styles for different button colors */
+.btn-send-request {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.btn-update {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.btn-accept {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.btn-reject {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.btn-message {
+    background-color: #ffc107; /* Yellow */
+    color: #000;
+}
+
+.btn-cancel-request {
+    background-color: #6c757d; /* Gray */
+    color: #fff;
+}
+
+
+.message-item {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.date-divider {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+    color: #888;
+}
+
+.message-content {
+    margin-top: 5px;
+    position: relative;
+}
+
+.sent .message-content {
+    float: right;
+    margin-left: auto;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.received .message-content {
+    float: left;
+    margin-right: auto;
+    background-color: #f0f0f0;
+}
+
+.message-text {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.message-sender {
+    font-weight: bold;
+}
+
+.message-timestamp {
+    color: #888;
+    display: block;
+    clear: both;
+}
+
+.message-form {
+    margin-top: 20px;
+}
+
+.message-form textarea,
+.message-form input[type="file"] {
+    float: left;
+    margin-right: 10px;
+}
+
+.message-form .btn-send {
+    float: right;
+}

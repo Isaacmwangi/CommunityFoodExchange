@@ -3,10 +3,10 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
 <h1>Send Message</h1>
-<form method="post">
+<form method="post" class="message-form" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send</button>
+    <textarea name="content" placeholder="Type your message here..."></textarea>
+    <input type="file" name="file">
+    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
 </form>
 {% endblock %}
-

@@ -2,13 +2,17 @@
 
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1>Conversations</h1>
-<ul>
+<h1>Your Conversations</h1>
+<ul class="conversation-list">
     {% for conversation in conversations %}
-    <li><a href="{% url 'conversation_detail' conversation.id %}">{{ conversation }}</a></li>
+    <li class="conversation-item">
+        <a href="{% url 'conversation_detail' conversation.id %}">
+            Conversation with: 
+            {% for participant in conversation.participants.all %}
+                {{ participant.username }}
+            {% endfor %}
+        </a>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}
-
-
-

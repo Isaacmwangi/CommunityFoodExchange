@@ -1,17 +1,52 @@
-<!-- messaging/templates/messaging/conversation_detail.html -->
-
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1>Conversation with {{ conversation }}</h1>
-<ul>
-    {% for message in messages %}
-    <li>{{ message.sender }} - {{ message.timestamp }}: {{ message.content }}</li>
-    {% endfor %}
-</ul>
-<form method="post" action="{% url 'send_message' conversation.id %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send</button>
-</form>
+<div class="conversation-detail">
+    <h1>Conversation with: {{ conversation.other_user }}</h1>
+    <div class="message-list">
+        {% with None as last_date %}
+            {% for message in messages %}
+                {% if message.timestamp.date != last_date %}
+                    <div class="date-divider">{{ message.timestamp|date:"l, F j, Y" }}</div>
+                    {% with message.timestamp.date as last_date %}
+                    {% endwith %}
+                {% endif %}
+                <div class="message-item {% if message.sender == user %}sent{% else %}received{% endif %}">
+                    {% if message.sender != user %}
+                        <div class="message-sender">{{ message.sender.username }}</div>
+                    {% endif %}
+                    <div class="message-header">
+                        <div class="message-timestamp">{% if message.file %}<a href="{{ message.file.url }}" target="_blank">{{ message.file.name }}</a>{% else %}{{ message.timestamp|time }}{% endif %}</div>
+                    </div>
+                    <div class="message-content">
+                        {% if message.quoted_message %}
+                            <div class="quoted-message">
+                                <p><span class="quoted-message-sender">{{ message.quoted_message.sender.username }}</span> said:</p>
+                                <p>{{ message.quoted_message.content }}</p>
+                            </div>
+                        {% endif %}
+                        <p>{{ message.content }}</p>
+                        {% if message.file %}
+                            {% if message.file.type == 'image' %}
+                                <img src="{{ message.file.url }}" alt="Attached Image">
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="message-actions">
+                        {% if message.sender != user %}
+                            <button class="btn btn-reply">Reply</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+    <form method="post" action="{% url 'send_message' conversation.id %}" class="message-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="message-input">
+            <input type="file" name="file">
+            <textarea name="content" placeholder="Type your message here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-send"><i class="fas fa-paper-plane"></i> Send</button>
+    </form>
+</div>
 {% endblock %}
-

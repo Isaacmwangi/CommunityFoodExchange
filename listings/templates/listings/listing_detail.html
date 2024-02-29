@@ -1,4 +1,4 @@
-<!--  listings/templates/listings/listing_detail.html -->
+<!-- listings/listing_detail.html -->
 
 {% extends 'accounts/base.html' %}
 {% block content %}
@@ -7,24 +7,59 @@
 <p>Description: {{ listing.description }}</p>
 <p>Quantity: {{ listing.quantity }}</p>
 <p>Expiration Date: {{ listing.expiration_date }}</p>
-<p>Posted by: {{ listing.user.username }}</p>
-{% if user.is_authenticated and user == listing.user %}
-    <a href="{% url 'listing_update' listing.id %}">Update</a>
-    <form method="post" action="{% url 'listing_delete' listing.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-{% else %}
-    {% if user.is_authenticated %}
-        {% if not has_sent_request %}  <!-- Use the has_sent_request variable -->
+{% if user.is_authenticated %}
+    {% if user != listing.user %}
+        {% if not has_sent_request %}
             <form method="post" action="{% url 'send_exchange_request' listing.id %}">
                 {% csrf_token %}
                 <button type="submit">Send Exchange Request</button>
             </form>
         {% else %}
-            <!-- Display a message saying that the user has already sent a request -->
-            <p>You have already sent a request for this item.</p>
+            <p class="error">You have already sent a request for this item.</p>
         {% endif %}
     {% endif %}
+    {% if user == listing.user %}
+        <a href="{% url 'listing_update' listing.id %}">Update</a>
+        <form method="post" action="{% url 'listing_delete' listing.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    {% endif %}
 {% endif %}
-{% endblock %}  <!-- Ensure that the block tag is closed -->
+<!-- Display exchange requests -->
+<h2>Exchange Requests</h2>
+<ul>
+    {% for request in exchange_requests %}
+    <li>
+        <p>From: {% if request.sender == request.listing.user %}Myself{% else %}{{ request.sender.username }}{% endif %}</p>
+        <p>Status: 
+            {% if request.status == 'Accepted' %}
+                <span class="accepted">Accepted</span>
+            {% elif request.status == 'Rejected' %}
+                <span class="rejected">Rejected</span>
+            {% else %}
+                Pending
+            {% endif %}
+        </p>
+        <p>Message: {{ request.message }}</p>
+        {% if user == listing.user %}
+            <form method="post" action="{% url 'manage_exchange_requests' listing.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <button type="submit" name="action" value="accept">Accept</button>
+                <button type="submit" name="action" value="reject">Reject</button>
+                <button type="submit" name="action" value="message">Message</button>
+            </form>
+        {% endif %}
+        {% if user == request.sender %}
+            <form method="post" action="{% url 'cancel_exchange_request' listing.id request.id %}">
+                {% csrf_token %}
+                <button type="submit">Cancel Request</button>
+            </form>
+        {% endif %}
+    </li>
+    {% empty %}
+    <li>No exchange requests yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

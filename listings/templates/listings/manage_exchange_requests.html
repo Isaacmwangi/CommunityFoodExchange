@@ -1,4 +1,4 @@
-# listings/templates/listings/manage_exchange_requests.html
+<!--  listings/templates/listings/manage_exchange_requests.html -->
 
 {% extends 'accounts/base.html' %}
 {% block content %}
@@ -12,8 +12,8 @@
                 {% csrf_token %}
                 <input type="hidden" name="request_id" value="{{ request.id }}">
                 <button type="submit" name="action" value="accept">Accept</button>
+                <button type="submit" name="action" value="reject">Reject</button>
                 <button type="submit" name="action" value="message">Message</button>
-                <button type="submit" name="action" value="delete">Delete</button>
             </form>
         </li>
     {% endfor %}

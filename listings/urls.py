@@ -2,6 +2,7 @@
 
 from django.urls import path
 from .views import listing_create, listing_detail, listing_update, listing_delete, accept_exchange_request, cancel_exchange_request
+from .views import manage_exchange_requests
 
 urlpatterns = [
     path('create/', listing_create, name='listing_create'),
@@ -9,4 +10,6 @@ urlpatterns = [
     path('<int:pk>/update/', listing_update, name='listing_update'),
     path('<int:pk>/delete/', listing_delete, name='listing_delete'),
     path('<int:pk>/accept_request/<int:request_id>/', accept_exchange_request, name='accept_exchange_request'),
-    path('<int:pk>/cancel_request/<int:request_id>/', cancel_exchange_request, name='cancel_exchange_request'),]
+    path('<int:pk>/cancel_request/<int:request_id>/', cancel_exchange_request, name='cancel_exchange_request'),
+    path('<int:pk>/manage_exchange_requests/', manage_exchange_requests, name='manage_exchange_requests'),
+]

@@ -13,8 +13,8 @@ class Listing(models.Model):
     description = models.TextField()
     quantity = models.PositiveIntegerField()
     expiration_date = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)  # Add created_at field with auto_now_add=True
-    image = models.ImageField(upload_to=listing_image_path)  # Specify the upload path here
+    created_at = models.DateTimeField(auto_now_add=True)  
+    image = models.ImageField(upload_to=listing_image_path)  
 
     def __str__(self):
         return self.item_name

@@ -10,6 +10,11 @@
 </div>
 
 <div class="container">
+    {% if action_message %}
+    <div class="notification">
+        {{ action_message }}
+    </div>
+    {% endif %}
     <section class="listings-section">
         <h2>Featured Listings</h2>
         <div class="listings-grid">
@@ -21,10 +26,12 @@
                     <p>{{ listing.description }}</p>
                     <p>Quantity: {{ listing.quantity }}</p>
                     <p>Expiration Date: {{ listing.expiration_date }}</p>
-                    <p>Posted by: {{ listing.user.username }}</p>
+                    <p>Posted by: {% if user == listing.user %}My Post{% else %}{{ listing.user.username }}{% endif %}</p>
                     <div class="actions">
                         <a href="{% url 'listing_detail' listing.id %}">View Details</a>
-                        <a href="{% url 'send_exchange_request' listing.id %}">Send Exchange Request</a>
+                        {% if user.is_authenticated and user != listing.user %}
+                            <a href="{% url 'send_exchange_request' listing.id %}">Send Exchange Request</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -53,31 +60,6 @@
         </ul>
     </section>
 
-    <!-- Display exchange requests -->
-    <section class="exchange-requests-section">
-        <h2>Exchange Requests</h2>
-        <ul>
-            {% for request in exchange_requests %}
-            <li>
-                <p>Listing: {{ request.listing.item_name }}</p>
-                <p>Status: {{ request.status }}</p>
-                <p>Message: {{ request.message }}</p>
-                {% if user == request.listing.user %}
-                    {% if request.status == 'Pending' %}
-                        <form method="post" action="{% url 'accept_exchange_request' request.listing.pk request.pk %}">
-                            {% csrf_token %}
-                            <button type="submit">Accept</button>
-                        </form>
-                        <form method="post" action="{% url 'cancel_exchange_request' request.listing.pk request.pk %}">
-                            {% csrf_token %}
-                            <button type="submit">Cancel</button>
-                        </form>
-                    {% endif %}
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    </section>
     
 
     <!-- Display latest messages -->
@@ -85,7 +67,12 @@
         <h2>Latest Messages</h2>
         {% if unread_messages_count > 0 %}
         <div class="notification">
-            You have {{ unread_messages_count }} unread messages.
+            <a href="{% url 'exchange_requests' %}">
+                <img src="{% static 'img/bell_icon.png' %}" alt="Bell Icon">
+                {% if exchange_requests %}
+                    <span class="badge">{{ exchange_requests|length }}</span>
+                {% endif %}
+            </a>
         </div>
         {% endif %}
     </section>

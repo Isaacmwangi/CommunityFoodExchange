@@ -74,8 +74,11 @@
 }
 
 .notification {
-    background-color: #ffc107;
-    color: #333;
+    background-color: #28a745; /* Green color for success messages */
+    color: #fff;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 20px;
 }
+
+

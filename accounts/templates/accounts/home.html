@@ -16,7 +16,7 @@
     </div>
     {% endif %}
     <section class="listings-section">
-        <h2>Featured Listings</h2>
+        <h2>Available Food for Exchange</h2>
         <div class="listings-grid">
             {% for listing in featured_listings %}
             <div class="listing-card">
@@ -28,9 +28,9 @@
                     <p>Expiration Date: {{ listing.expiration_date }}</p>
                     <p>Posted by: {% if user == listing.user %}My Post{% else %}{{ listing.user.username }}{% endif %}</p>
                     <div class="actions">
-                        <a href="{% url 'listing_detail' listing.id %}">View Details</a>
+                        <a href="{% url 'listing_detail' listing.id %}" class="btn btn-view-details">View Details</a>
                         {% if user.is_authenticated and user != listing.user %}
-                            <a href="{% url 'send_exchange_request' listing.id %}">Send Exchange Request</a>
+                            <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-exchange-request">Send Exchange Request</a>
                         {% endif %}
                     </div>
                 </div>
@@ -38,7 +38,7 @@
             {% endfor %}
         </div>
         <div class="create-listing">
-            <a href="{% url 'listing_create' %}"> Add an Item</a>
+            <a href="{% url 'listing_create' %}" class="btn btn-add-item">Add an Item</a>
         </div>
     </section>
 
@@ -52,29 +52,44 @@
                 <p>Date: {{ event.date }}</p>
                 <p>Location: {{ event.location }}</p>
                 <div class="event-actions">
-                    <a href="{% url 'event_detail' event.id %}">View Details</a>
-                    <a href="{% url 'event_rsvp' event.id %}">RSVP</a>
+                    <a href="{% url 'event_detail' event.id %}" class="btn btn-view-details">View Details</a>
+                    <a href="{% url 'event_rsvp' event.id %}" class="btn btn-rsvp">RSVP</a>
                 </div>
             </li>
             {% endfor %}
         </ul>
     </section>
 
-    
-
     <!-- Display latest messages -->
     <section class="latest-messages-section">
         <h2>Your Messages</h2>
         {% if unread_messages_count > 0 %}
         <div class="notification">
-            <a href="{% url 'exchange_requests' %}">
+            <a href="{% url 'exchange_requests' %}" class="btn btn-message">
                 <i class="bi bi-bell-fill"></i>
                 {% if exchange_requests %}
                     <span class="badge">{{ unread_messages_count }}</span>
                 {% endif %}
-                <span class="message-prompt">Requests</span>
+                <span class="message-prompt"></span>
             </a>
         </div>
+        {% endif %}
+    </section>
+     <!-- Display request messages -->
+     <section class="request-messages-section">
+        <h2>Request Messages</h2>
+        {% if exchange_requests %}
+        <ul>
+            {% for request in exchange_requests %}
+            <li>
+                <p>Listing: {{ request.listing.item_name }}</p>
+                <p>Status: {{ request.status }}</p>
+                <p>Message: {{ request.message }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No request messages yet.</p>
         {% endif %}
     </section>
 </div>

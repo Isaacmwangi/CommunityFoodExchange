@@ -2,13 +2,18 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Conversation, Message
+from .models import Conversation
 from .forms import MessageForm
-from django.contrib.auth.models import User
+from .models import Conversation, Message  
+
 
 @login_required
 def conversation_list(request):
     conversations = request.user.conversations.all()
+    for conversation in conversations:
+        conversation.latest_message = conversation.messages.last()
+        conversation.unread_messages_count = conversation.messages.filter(sender=request.user, is_read=False).count()
+        conversation.new_messages_count = conversation.messages.exclude(sender=request.user).filter(is_read=False).count()
     return render(request, 'messaging/conversation_list.html', {'conversations': conversations})
 
 @login_required
@@ -38,6 +43,4 @@ def send_message(request, conversation_id):
     else:
         form = MessageForm()
     return render(request, 'messaging/send_message.html', {'form': form})
-
-
 

@@ -1,0 +1,219 @@
+/* accounts/static/css/style.css */
+
+/* General styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.listings-section,
+.events-section,
+.latest-messages-section {
+    margin-bottom: 40px;
+}
+
+/* Listings section styles */
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
+
+.listing-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.listing-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.listing-details {
+    padding: 20px;
+}
+
+.listing-details h3 {
+    margin-top: 0;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+.actions a.btn {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.create-listing {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.create-listing a.btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+}
+
+/* Events section styles */
+.events-list li {
+    margin-bottom: 20px;
+}
+
+.event-actions {
+    margin-top: 10px;
+}
+
+.event-actions a.btn {
+    margin-right: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+}
+
+/* Latest messages section styles */
+.notification {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.notification a.btn {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: #ffc107;
+}
+
+.notification a.btn:hover {
+    background-color: #ffca2b;
+}
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.message-prompt {
+    margin-left: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .listings-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+/* Add your styles for messaging box here */
+
+.conversation-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.conversation-item {
+    margin-bottom: 10px;
+}
+
+.message-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.message-item {
+    margin-bottom: 20px;
+}
+
+.message-sender {
+    font-weight: bold;
+}
+
+.message-timestamp {
+    margin-left: 10px;
+    color: #888;
+}
+
+.message-content {
+    margin-top: 5px;
+}
+
+.message-form {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-send-request {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.btn-update {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.btn-accept {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.btn-reject {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.btn-message {
+    background-color: #ffc107; /* Yellow */
+    color: #000;
+}
+
+.btn-cancel-request {
+    background-color: #6c757d; /* Gray */
+    color: #fff;
+}

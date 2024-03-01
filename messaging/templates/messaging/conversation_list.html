@@ -1,17 +1,33 @@
-<!-- messaging/templates/messaging/conversation_list.html -->
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1>Your Conversations</h1>
-<ul class="conversation-list">
-    {% for conversation in conversations %}
-    <li class="conversation-item">
-        <a href="{% url 'conversation_detail' conversation.id %}">
-            Conversation with: 
-            {% for participant in conversation.participants.all %}
-                {{ participant.username }}
-            {% endfor %}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+<div class="container">
+    <h1>Your Conversations</h1>
+    <div class="conversation-list">
+        {% for conversation in conversations %}
+            <div class="conversation-item">
+                <a href="{% url 'conversation_detail' conversation.id %}">
+                    {% if conversation.messages.last %}
+                        {% if conversation.messages.last.sender != user %}
+                            {{ conversation.messages.last.sender.username }} ({{ conversation.listing.name }})
+                        {% else %}
+                            {{ conversation.receiver.username }} ({{ conversation.listing.name }})
+                        {% endif %}
+                    {% else %}
+                        {% for participant in conversation.participants.all %}
+                            {% if participant != user %}
+                                {{ participant.username }} ({{ conversation.listing.name }})
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if conversation.unread_messages_count > 0 %}
+                        <span class="badge unread" data-toggle="tooltip" data-placement="bottom" title="You have {{ conversation.unread_messages_count }} unread message(s)">{{ conversation.unread_messages_count }}</span>
+                    {% endif %}
+                    {% if conversation.new_messages_count > 0 %}
+                        <span class="badge new" data-toggle="tooltip" data-placement="bottom" title="You have {{ conversation.new_messages_count }} new message(s)">{{ conversation.new_messages_count }}</span>
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

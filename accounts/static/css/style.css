@@ -95,6 +95,26 @@
     border-radius: 50%;
     font-size: 12px;
 }
+.latest-messages-section {
+    position: relative;
+}
+
+.notification {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+}
+
+.notification .btn-message {
+    position: relative;
+}
+
+.notification .btn-message .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
 
 .message-prompt {
     margin-left: auto;
@@ -311,4 +331,44 @@
 .btn-send {
     float: right;
     margin-top: 10px;
+}
+
+/* Add your styles here */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.conversation-item {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.conversation-link {
+    text-decoration: none;
+    color: #333;
+}
+
+.conversation-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.conversation-participant {
+    font-weight: bold;
+}
+
+.badge {
+    background-color: red;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+/* Hover effect */
+.conversation-item:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
 }

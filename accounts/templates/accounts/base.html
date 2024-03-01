@@ -1,3 +1,6 @@
+<!-- accounts\templates\accounts\base.html -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +56,7 @@
             border-radius: 50%;
             font-size: 12px;
         }
+        
     </style>
 </head>
 <body>
@@ -63,9 +67,11 @@
             <a href="{% url 'profile_update' %}">Profile</a>
             <a href="{% url 'logout' %}">Logout</a>
             <!-- Notification for new messages -->
-            <a href="{% url 'conversation_list' %}">
-                Messages {% if user.unread_messages.count %}<span class="badge">{{ user.unread_messages.count }}</span>{% endif %}
+            <a href="{% if latest_conversation_id %}{% url 'conversation_detail' latest_conversation_id %}{% else %}{% url 'conversation_list' %}{% endif %}">
+                Messages {% if unread_messages_count %}<span class="badge">{{ unread_messages_count }}</span>{% endif %}
             </a>
+                      
+            
             {% else %}
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Signup</a>

@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from .models import Profile
@@ -12,6 +11,9 @@ from django.contrib.auth import logout
 from listings.models import Listing  
 from exchange.models import ExchangeRequest 
 from messaging.models import Message 
+from messaging.models import Conversation
+from django.db.models import Max
+
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
 
@@ -83,21 +85,26 @@ def user_logout(request):  # Define a user_logout view
 def home(request):
     featured_listings = Listing.objects.all()  # Fetch all listings
     upcoming_events = []  # Assuming you have logic to retrieve upcoming events
-    unread_messages_count = Message.objects.filter(conversation__participants=request.user, is_read=False).count()
     exchange_requests = ExchangeRequest.objects.filter(receiver=request.user)  # Fetch exchange requests
     action_message = request.session.pop('action_message', None)  # Get action message from session
-    return render(request, 'accounts/home.html', {'featured_listings': featured_listings, 'upcoming_events': upcoming_events, 'unread_messages_count': unread_messages_count, 'exchange_requests': exchange_requests, 'action_message': action_message})
-
-
-@login_required
-def listing_delete(request, pk):
-    listing = get_object_or_404(Listing, pk=pk)
-    if request.method == 'POST':
-        listing.delete()
-        messages.success(request, 'Listing deleted successfully.')  # Add success message
-        return redirect('home')
-    return render(request, 'listings/listing_confirm_delete.html', {'listing': listing})
-
+    
+    # Fetch and count unread messages for the current user
+    unread_messages_count = Message.objects.filter(conversation__participants=request.user, is_read=False).count()
+    
+    try:
+        latest_conversation = request.user.conversations.annotate(latest_message_timestamp=Max('messages__timestamp')).order_by('-latest_message_timestamp').first()
+        latest_conversation_id = latest_conversation.id
+    except Conversation.DoesNotExist:
+        latest_conversation_id = None
+    
+    return render(request, 'accounts/home.html', {
+        'featured_listings': featured_listings,
+        'upcoming_events': upcoming_events,
+        'unread_messages_count': unread_messages_count,
+        'exchange_requests': exchange_requests,
+        'action_message': action_message,
+        'latest_conversation_id': latest_conversation_id,
+    })
 
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)

@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from messaging.models import Message  # Import the Message model from messaging app
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,4 +17,4 @@ class Profile(models.Model):
 class UserWithUnreadMessagesCount(User):
     @property
     def unread_messages_count(self):
-        return Message.objects.filter(conversation__participants=self, read=False).count()
+        return Message.objects.filter(conversation__participants=self, is_read=False).count()  # Assuming is_read is the field indicating whether a message is read or not

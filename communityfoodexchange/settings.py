@@ -14,6 +14,19 @@ from pathlib import Path
 import os
 import dj_database_url
 
+from cloudinary.models import CloudinaryField 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+# Configure Cloudinary with your cloud_name, api_key, and api_secret
+cloudinary.config(
+    cloud_name='dq6lke7er',
+    api_key='751183142254852',
+    api_secret='qIYsaFsyH59E-J86NAWEzKX4TGk'
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,7 +62,8 @@ INSTALLED_APPS = [
      'messaging',
      'search',
      'ratings_reviews', 
-     'cloudinary'
+     'cloudinary',
+     'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'communityfoodexchange.urls'
@@ -67,9 +82,7 @@ ROOT_URLCONF = 'communityfoodexchange.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),  # Add this line to include the root templates directory
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,10 +159,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
+# Update the DEFAULT_FILE_STORAGE setting to use Cloudinary for file storage
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Update the STATICFILES_STORAGE setting to use WhiteNoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Update the STATIC_URL setting
 STATIC_URL = '/static/'
 
-
+# Update the MEDIA_URL setting
 MEDIA_URL = '/media/'
+
+# Add Cloudinary settings for media upload
+CLOUDINARY_STORAGE_PATH = 'community_food_exchange/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

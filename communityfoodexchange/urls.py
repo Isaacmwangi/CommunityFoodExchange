@@ -32,8 +32,8 @@ urlpatterns = [
     path('messaging/', include('messaging.urls')),  # Include the messaging URLs
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Define the handler404 view
 handler404 = 'accounts.views.custom_404_view'
 

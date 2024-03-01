@@ -2,10 +2,10 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 def listing_image_path(instance, filename):
-    # File will be uploaded to MEDIA_ROOT/listings/images/<filename>
-    return 'listings/images/{0}'.format(filename)
+    return f'listings/{instance.user.username}/{filename}'
 
 class Listing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -14,7 +14,8 @@ class Listing(models.Model):
     quantity = models.PositiveIntegerField()
     expiration_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)  
-    image = models.ImageField(upload_to=listing_image_path)  
+    image = CloudinaryField('image')  # Removed upload_to argument
 
     def __str__(self):
         return self.item_name
+

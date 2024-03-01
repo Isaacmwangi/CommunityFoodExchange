@@ -14,3 +14,4 @@ class ExchangeRequest(models.Model):
 
     def __str__(self):
         return f'{self.sender} to {self.receiver}: {self.listing.item_name}'
+

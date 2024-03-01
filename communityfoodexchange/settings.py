@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
      'messaging',
      'search',
      'ratings_reviews', 
+     'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -83,11 +85,26 @@ WSGI_APPLICATION = 'communityfoodexchange.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'communityfoodexchange',  # Database name
+#         'USER': 'communityfoodexchange_user',  # Database user
+#         'PASSWORD': 'TEP7flT8YiXsRYi9NaAj54i62yLuiCR4',  # Database password
+#         'HOST': 'dpg-cngor45a73kc73c4ecsg-a.oregon-postgres.render.com',  # Database host
+#         'PORT': '',  # Leave empty for default port
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default='postgres://communityfoodexchange_user:TEP7flT8YiXsRYi9NaAj54i62yLuiCR4@dpg-cngor45a73kc73c4ecsg-a.oregon-postgres.render.com/communityfoodexchange')
 }
 
 

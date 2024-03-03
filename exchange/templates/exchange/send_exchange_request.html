@@ -1,14 +1,16 @@
 <!-- exchange/templates/exchange/send_exchange_request.html -->
 
-
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1>Send Exchange Request</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="receiver_id" value="{{ listing.user.id }}">  <!-- Hidden input for receiver ID -->
-    <button type="submit">Send Exchange Request</button>
-</form>
+<div class="container">
+    <h1>Send Exchange Request to {{ receiver.username }}</h1> 
+    <form method="post">
+        {% csrf_token %}
+        {{ form.message.label_tag }}
+        {{ form.message }}
+        <input type="hidden" name="receiver_id" value="{{ receiver.id }}"> 
+        <button type="submit" class="btn btn-send-request">Send Exchange Request</button>
+    </form>
+</div>
 {% endblock %}
 

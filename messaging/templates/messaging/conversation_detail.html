@@ -1,7 +1,9 @@
+<!-- messaging\templates\messaging\conversation_detail.html -->
+
 {% extends 'accounts/base.html' %}
 {% block content %}
 <div class="conversation-detail">
-    <h1>Conversation with: {{ conversation.other_user }}</h1>
+    <h1>Conversation with: {{ other_user.username }}{% if listing %} ({{ listing.name }}){% endif %}</h1>
     <div class="message-list">
         {% with None as last_date %}
             {% for message in messages %}

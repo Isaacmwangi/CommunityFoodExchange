@@ -91,11 +91,8 @@ def home(request):
     # Fetch and count unread messages for the current user
     unread_messages_count = Message.objects.filter(conversation__participants=request.user, is_read=False).count()
     
-    try:
-        latest_conversation = request.user.conversations.annotate(latest_message_timestamp=Max('messages__timestamp')).order_by('-latest_message_timestamp').first()
-        latest_conversation_id = latest_conversation.id
-    except Conversation.DoesNotExist:
-        latest_conversation_id = None
+    latest_conversation = request.user.conversations.annotate(latest_message_timestamp=Max('messages__timestamp')).order_by('-latest_message_timestamp').first()
+    latest_conversation_id = latest_conversation.id if latest_conversation else None
     
     return render(request, 'accounts/home.html', {
         'featured_listings': featured_listings,

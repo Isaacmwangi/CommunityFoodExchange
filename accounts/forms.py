@@ -7,4 +7,4 @@ from .models import Profile
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['location', 'dietary_preferences', 'food_allergies']
+        fields = ['location', 'dietary_preferences', 'food_allergies', 'email', 'first_name', 'last_name', 'mobile_number']

@@ -1,0 +1,13 @@
+<!-- exchange\templates\exchange\cancel_exchange_request.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="container">
+  <h1>Cancel Exchange Request</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-cancel-request">Cancel Exchange Request</button>
+  </form>
+</div>
+{% endblock %}

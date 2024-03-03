@@ -6,10 +6,78 @@
     padding: 20px;
 }
 
+.brand-name {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px; /* Adjust the width as needed */
+    margin-right: 10px;
+}
+
+.brand-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.slogan {
+    font-size: 16px;
+    color: #888;
+    margin: 0;
+}
+
+
+
 .hero-section {
     text-align: center;
     margin-bottom: 40px;
 }
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #007bff; /* Blue color for the title */
+}
+
+.hero-description {
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.hero-action {
+    margin-top: 20px;
+}
+
+.hero-action .btn {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.hero-action .btn:hover {
+    background-color: #0056b3;
+}
+
 
 .listings-section {
     margin-bottom: 40px;
@@ -42,6 +110,23 @@
     margin-top: 0;
 }
 
+
+.image-container {
+    max-width: 100%; /* Ensure the image container fills the width of its parent */
+    overflow: hidden; /* Hide any overflow */
+}
+
+.graph-container {
+    width: 100%;
+    height: auto; /* Adjust height as needed */
+    overflow-x: auto; /* Enable horizontal scrolling if the graph is wider than the container */
+  }
+  
+/* Define the image styles */
+.detail-image {
+    width: 100%; /* Make the image fill the width of its container */
+    height: auto; /* Ensure the aspect ratio is maintained */
+}
 .actions {
     margin-top: 20px;
 }
@@ -74,11 +159,11 @@
 }
 
 .notification {
-    background-color: #28a745; /* Green color for success messages */
+    background-color: #28a745;
     color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    padding: 1px;
+    border-radius: 1px;
+    margin-bottom: 2px;
     display: flex;
     align-items: center;
 }
@@ -372,3 +457,47 @@
     background-color: #f5f5f5;
     cursor: pointer;
 }
+
+
+/* Add styles for the container and list items */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.container h1 {
+    text-align: center;
+}
+
+.container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.container li {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.container li:last-child {
+    margin-bottom: 0;
+}
+
+.time {
+    color: #888;
+    font-size: 12px;
+}
+
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Add any additional styles as needed */

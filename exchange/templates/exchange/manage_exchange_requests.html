@@ -1,38 +1,61 @@
 <!-- exchange/templates/exchange/manage_exchange_requests.html -->
 
 {% extends 'accounts/base.html' %}
+
 {% block content %}
-<h1>Manage Exchange Requests</h1>
-{% if exchange_requests %}
-    <ul>
-    {% for request in exchange_requests %}
-        <li>
-            From: {{ request.sender }}
-            <p>Status: 
-                {% if request.status == 'Accepted' %}
-                    <span class="accepted">Accepted</span>
-                {% elif request.status == 'Rejected' %}
-                    <span class="rejected">Rejected</span>
-                {% elif request.status == 'Cancelled' %}
-                    <span class="cancelled">Cancelled</span>
-                {% else %}
-                    Pending
-                {% endif %}
-            </p>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="btn-group" role="group">
+        <a href="{% url 'cancelled_requests' %}" class="btn btn-secondary">Cancelled</a>
+        <a href="{% url 'accepted_requests' %}" class="btn btn-success">Accepted</a>
+        <a href="{% url 'rejected_requests' %}" class="btn btn-danger">Rejected</a>
+      </div>
+    </div>
+  </div>
+  <h1>Manage Exchange Requests</h1>
+
+  <!-- Filter buttons -->
+  
+
+  <!-- Active Requests -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Active Requests</h2>
+      {% if exchange_requests %}
+        <div class="exchange-requests">
+          {% for request in exchange_requests %}
             {% if request.status != 'Cancelled' %}
-            <form method="post" action="{% url 'manage_exchange_requests' listing.id %}">
-                {% csrf_token %}
-                <input type="hidden" name="request_id" value="{{ request.id }}">
-                <button type="submit" name="action" value="accept">Accept</button>
-                <button type="submit" name="action" value="reject">Reject</button>
-                <button type="submit" name="action" value="message">Message</button>
-                <button type="submit" name="action" value="cancel">Cancel</button>
-            </form>
+              <div class="exchange-request">
+                {% if request.sender == request.user %}
+                  <p><strong>From: </strong>My Request</p>
+                {% else %}
+                  <p><strong>From: </strong>{{ request.sender.username }}</p>
+                {% endif %}
+                <p><strong>Item: </strong>{{ request.listing.item_name }}</p>
+                <p><strong>Status: </strong>{{ request.status }}</p>
+                <p><strong>Message: </strong>{{ request.message }}</p>
+                <p><strong>Time: </strong>{{ request.created_at }}</p>
+                <div class="action-buttons">
+                  {% if request.status == 'Pending' %}
+                    <form method="post" action="{% url 'manage_exchange_requests' pk=request.user.pk %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="request_id" value="{{ request.id }}">
+                      <button type="submit" name="action" value="accept" class="btn btn-primary">Accept</button>
+                      <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                      <button type="submit" name="action" value="message" class="btn btn-secondary">Message</button>
+                      <button type="submit" name="action" value="cancel" class="btn btn-warning">Cancel</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </div>
             {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No exchange requests yet.</p>
-{% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No active exchange requests yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

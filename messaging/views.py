@@ -4,7 +4,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Conversation
 from .forms import MessageForm
-from .models import Conversation, Message  
+from .models import Conversation
+from listings.models import Listing
+
 
 
 @login_required
@@ -14,7 +16,13 @@ def conversation_list(request):
         conversation.latest_message = conversation.messages.last()
         conversation.unread_messages_count = conversation.messages.filter(sender=request.user, is_read=False).count()
         conversation.new_messages_count = conversation.messages.exclude(sender=request.user).filter(is_read=False).count()
+        # Determine the other participant in the conversation
+        conversation.other_user = conversation.participants.exclude(id=request.user.id).first()
+        # Assuming each conversation is associated with a listing
+        conversation.listing = Listing.objects.first()  # Replace with your actual logic to retrieve the listing
     return render(request, 'messaging/conversation_list.html', {'conversations': conversations})
+
+
 
 @login_required
 def conversation_detail(request, conversation_id):
@@ -27,7 +35,11 @@ def conversation_detail(request, conversation_id):
         if message.sender != request.user:
             message.is_read = True
             message.save()
-    return render(request, 'messaging/conversation_detail.html', {'conversation': conversation, 'messages': messages})
+    # Determine the other participant in the conversation
+    other_user = conversation.participants.exclude(id=request.user.id).first()
+    # Retrieve the listing associated with the conversation
+    listing = conversation.listing  # Adjust this line
+    return render(request, 'messaging/conversation_detail.html', {'conversation': conversation, 'messages': messages, 'other_user': other_user, 'listing': listing})
 
 @login_required
 def send_message(request, conversation_id):

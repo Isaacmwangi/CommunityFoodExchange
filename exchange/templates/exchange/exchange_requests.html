@@ -3,29 +3,16 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-<h1>Exchange Requests</h1>
-<div class="sent-requests">
-    <h2>Sent Requests</h2>
-    <ul>
-        {% for request in sent_requests %}
-        <li>
-            <p>Listing: {{ request.listing.item_name }}</p>
-            <p>Status: {{ request.status }}</p>
-            <p>Message: {{ request.message }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+<div class="container">
+  <h1>Exchange Requests</h1>
+  <div class="btn-group" role="group">
+    <a href="{% url 'my_requests' %}" class="btn btn-primary">My Requests <span class="badge bg-primary">{{ sent_count }}</span></a>
+    <a href="{% url 'received_requests' %}" class="btn btn-info">Received Requests <span class="badge bg-info">{{ received_count }}</span></a>
+    <a href="{% url 'trend_analysis' %}" class="btn btn-secondary">Trend Analysis</a>
 </div>
-<div class="received-requests">
-    <h2>Received Requests</h2>
-    <ul>
-        {% for request in received_requests %}
-        <li>
-            <p>Listing: {{ request.listing.item_name }}</p>
-            <p>Status: {{ request.status }}</p>
-            <p>Message: {{ request.message }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+</br>
+</br>
+</br>
+
 </div>
 {% endblock %}

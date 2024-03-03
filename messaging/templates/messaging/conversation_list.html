@@ -1,3 +1,5 @@
+<!-- messaging\templates\messaging\conversation_list.html -->
+
 {% extends 'accounts/base.html' %}
 {% block content %}
 <div class="container">
@@ -8,9 +10,9 @@
                 <a href="{% url 'conversation_detail' conversation.id %}">
                     {% if conversation.messages.last %}
                         {% if conversation.messages.last.sender != user %}
-                            {{ conversation.messages.last.sender.username }} ({{ conversation.listing.name }})
+                            {{ conversation.other_user.username }} ({{ conversation.listing.name }})
                         {% else %}
-                            {{ conversation.receiver.username }} ({{ conversation.listing.name }})
+                            {{ conversation.other_user.username }} ({{ conversation.listing.name }})
                         {% endif %}
                     {% else %}
                         {% for participant in conversation.participants.all %}

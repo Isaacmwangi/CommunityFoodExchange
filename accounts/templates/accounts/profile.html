@@ -5,6 +5,10 @@
     <h1>Profile</h1>
     {% if profile %}
         <p>Username: {{ profile.user.username }}</p>
+        <p>Email: {{ profile.email }}</p>
+        <p>First Name: {{ profile.first_name }}</p>
+        <p>Last Name: {{ profile.last_name }}</p>
+        <p>Mobile Number: {{ profile.mobile_number }}</p>
         <p>Location: {{ profile.location }}</p>
         <p>Dietary Preferences: {{ profile.dietary_preferences }}</p>
         <p>Food Allergies: {{ profile.food_allergies }}</p>

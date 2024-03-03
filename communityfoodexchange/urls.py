@@ -37,4 +37,7 @@ if settings.DEBUG:
 # Define the handler404 view
 handler404 = 'accounts.views.custom_404_view'
 
+# Customize Django administration
+admin.site.site_header = "FreshHarvest Community Exchange"  # Change the admin header
+admin.site.site_title = "FreshHarvest Community Exchange"  # Change the admin title
 

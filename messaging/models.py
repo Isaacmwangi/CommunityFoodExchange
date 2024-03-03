@@ -1,9 +1,11 @@
 # messaging/models.py
 from django.db import models
 from django.contrib.auth.models import User
+from listings.models import Listing
 
 class Conversation(models.Model):
     participants = models.ManyToManyField(User, related_name='conversations')
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='conversations', blank=True, null=True)
 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')

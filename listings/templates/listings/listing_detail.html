@@ -1,5 +1,3 @@
-<!-- listings/templates/listings/listing_detail.html -->
-
 {% extends 'accounts/base.html' %}
 {% block content %}
 <div class="listing-detail">
@@ -21,6 +19,7 @@
             {% endif %}
         {% endif %}
         {% if user == listing.user %}
+            <a href="{% url 'manage_exchange_requests' listing.id %}" class="btn btn-manage-requests"><i class="fas fa-tasks"></i> Manage Requests</a>
             <form method="post" action="{% url 'listing_delete' listing.id %}">
                 {% csrf_token %}
                 <button type="button" class="btn btn-delete" id="delete-listing-btn"><i class="fas fa-trash-alt"></i> Delete</button>
@@ -36,7 +35,7 @@
     <ul>
         {% for request in exchange_requests %}
         <li>
-            <p><strong>From:</strong> {% if request.sender == request.listing.user %}Myself{% else %}{{ request.sender.username }}{% endif %}</p>
+            <p><strong>From:</strong> {% if user == listing.user %}{{ request.sender.username }} - {{ request.sender.profile.location }}{% else %}{{ request.listing.user.username }}{% endif %}</p>
             <p><strong>Status:</strong> 
                 {% if request.status == 'Accepted' %}
                     <span class="status accepted">Accepted</span>

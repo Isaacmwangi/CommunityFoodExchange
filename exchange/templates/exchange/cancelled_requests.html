@@ -1,0 +1,25 @@
+<!-- exchange/templates/exchange/cancelled_requests.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Cancelled Requests</h1>
+  <div class="exchange-requests">
+    {% if cancelled_requests %}
+      {% for request in cancelled_requests %}
+        <div class="exchange-request">
+          <p><strong>Item: </strong>{{ request.listing.item_name }}</p>
+          <p><strong>Status: </strong>{{ request.status }}</p>
+          <p><strong>Requesting Person: </strong>{{ request.sender }}</p>
+          <p><strong>Message: </strong>{{ request.message }}</p>
+          <p><strong>Time: </strong>{{ request.created_at }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No cancelled requests.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+

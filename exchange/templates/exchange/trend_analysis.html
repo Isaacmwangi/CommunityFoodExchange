@@ -1,0 +1,21 @@
+<!-- exchange/templates/exchange/trend_analysis.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Trend Analysis</h1>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Exchange Request Trend (All Time)</h5>
+          <div>
+            <img src="{% url 'trend_analysis_image' %}" alt="Exchange Request Trend Graph" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

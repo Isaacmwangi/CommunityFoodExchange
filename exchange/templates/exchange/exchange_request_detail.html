@@ -1,0 +1,21 @@
+<!-- exchange/templates/exchange/exchange_request_detail.html -->
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Exchange Request Details</h1>
+  <div class="exchange-request">
+    <div class="image-container">
+      <img src="{{ exchange_request.listing.image.url }}" alt="{{ exchange_request.listing.item_name }} Image" class="detail-image">
+    </div>
+    <p><strong>Item: </strong>{{ exchange_request.listing.item_name }}</p>
+    
+    <p><strong>Status: </strong>{{ exchange_request.status }}</p>
+    <p><strong>Requesting Person: </strong>{{ exchange_request.sender }}</p>
+    <p><strong>Message: </strong>{{ exchange_request.message }}</p>
+    <p><strong>Time: </strong>{{ exchange_request.created_at }}</p>
+    <!-- Add more details as needed -->
+  </div>
+</div>
+{% endblock %}

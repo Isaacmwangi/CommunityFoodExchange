@@ -1,0 +1,31 @@
+<!-- exchange\templates\exchange\my_requests.html -->
+
+
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>My Requests</h1>
+  <p>Total Requests: {{ sent_requests.count }}</p>
+  
+  <div class="exchange-requests">
+    {% if sent_requests %}
+      <div class="sent-requests">
+        {% for request in sent_requests %}
+          <div class="exchange-request">
+            <p><strong>Item: </strong>{{ request.listing.item_name }}</p>
+            <p><strong>Status: </strong>{{ request.status }}</p>
+            <p><strong>Requesting Person: </strong>{{ request.sender }}</p>
+            <p><strong>Message: </strong>{{ request.message }}</p>
+            <p><strong>Time: </strong>{{ request.created_at }}</p>
+            <!-- Add button to view exchange request details -->
+            <a href="{% url 'exchange_request_detail' request.id %}" class="btn btn-primary" style="text-decoration: none;">View Details</a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No sent requests yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

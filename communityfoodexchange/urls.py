@@ -21,23 +21,29 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from accounts import views
+from accounts import views  # Make sure to import the views module
+from accounts import views as accounts_views  # Import the views module from accounts app
+from ratings_reviews import views as ratings_reviews_views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('', views.home, name='home'),
-    path('listings/', include('listings.urls')),  # Include the listings URLs
-    path('exchange/', include('exchange.urls')),  # Include the exchange URLs
-    path('messaging/', include('messaging.urls')),  # Include the messaging URLs
+    path('listings/', include('listings.urls')),
+    path('exchange/', include('exchange.urls')),
+    path('messaging/', include('messaging.urls')),
+    path('events/', include('events.urls')),
+    path('post_review/', ratings_reviews_views.post_review, name='post_review'),
+    path('delete_review/<int:review_id>/', ratings_reviews_views.delete_review, name='delete_review'),
+    path('edit_review/<int:review_id>/', ratings_reviews_views.edit_review, name='edit_review'),  # Add this line for edit_review view
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 # Define the handler404 view
 handler404 = 'accounts.views.custom_404_view'
 
 # Customize Django administration
-admin.site.site_header = "FreshHarvest Community Exchange"  # Change the admin header
-admin.site.site_title = "FreshHarvest Community Exchange"  # Change the admin title
-
+admin.site.site_header = "FHarvest Community Exchange"
+admin.site.site_title = "FHarvest Community Exchange"

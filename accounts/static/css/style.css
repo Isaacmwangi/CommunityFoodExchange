@@ -254,6 +254,7 @@
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none; 
 }
 
 .btn-primary:hover {
@@ -268,16 +269,61 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none; 
 }
 
 .btn.update-btn {
     background-color: #28a745;
+    text-decoration: none; 
+
 }
 
 .btn:hover {
     opacity: 0.8;
 }
 
+
+.btn-group {
+    margin-bottom: 20px; /* Increase spacing between button groups */
+    text-decoration: none; 
+}
+
+.btn-group .btn {
+    flex: 1;
+    margin-right: 10px; /* Increase spacing between buttons */
+    text-decoration: none; 
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+    text-decoration: none; 
+}
+
+/* Add different colors for the buttons */
+.btn-success {
+    background-color: #28a745; /* Green */
+    text-decoration: none; 
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red */
+    text-decoration: none; 
+}
+
+.btn-warning {
+    background-color: #ffc107; /* Yellow */
+    text-decoration: none; 
+
+}
+
+
+/* Increase button size for smaller screens */
+@media (max-width: 576px) {
+    .btn-group .btn {
+        padding: 10px 20px; /* Increase padding */
+        font-size: 16px; /* Increase font size */
+    }
+}
 .status {
     font-weight: bold;
 }
@@ -292,6 +338,9 @@
 
 .action-buttons {
     display: inline-block;
+    text-decoration: none; 
+    
+
 }
 
 .action-buttons form,
@@ -304,48 +353,62 @@
 /* icons to buttons */
 .btn i {
     margin-right: 5px;
+    text-decoration: none; 
+
 }
 
 /* Styles for different button colors */
 .btn-send-request {
     background-color: #007bff; /* Blue */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 .btn-delete {
     background-color: #dc3545; /* Red */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 .btn-update {
     background-color: #28a745; /* Green */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 .btn-accept {
     background-color: #28a745; /* Green */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 .btn-reject {
     background-color: #dc3545; /* Red */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 .btn-message {
     background-color: #ffc107; /* Yellow */
     color: #000;
+    text-decoration: none; 
+
 }
 
 .btn-cancel-request {
     background-color: #6c757d; /* Gray */
     color: #fff;
+    text-decoration: none; 
+
 }
 
 
-/* accounts/static/css/style.css */
 
-/* Add your styles here */
 .message-item {
     margin-bottom: 20px;
     overflow: hidden;
@@ -416,6 +479,8 @@
 .btn-send {
     float: right;
     margin-top: 10px;
+    text-decoration: none; 
+
 }
 
 /* Add your styles here */
@@ -500,4 +565,22 @@
     margin-bottom: 5px;
 }
 
-/* Add any additional styles as needed */
+.star-rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+  }
+  .star-rating span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+  }
+  .star-rating span:hover:before,
+  .star-rating span:hover~span:before {
+    content: '\2605';
+    position: absolute;
+    color: gold;
+  }
+  
+  
+
+  

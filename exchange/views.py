@@ -108,22 +108,54 @@ def received_requests(request):
 @login_required
 def trend_analysis(request):
     # Query to get the count of exchange requests for each status grouped by date
-    trends = ExchangeRequest.objects.filter(status__in=['Accepted', 'Rejected', 'Cancelled'], created_at__gte=datetime.now()-timedelta(days=7)) \
+    trends_received = ExchangeRequest.objects.filter(receiver=request.user, created_at__gte=datetime.now()-timedelta(days=7)) \
                         .values('status') \
                         .annotate(count=Count('id')) \
                         .order_by('status')
 
-    # Extract data for the trend graph
-    statuses = [t['status'] for t in trends]
-    counts = [t['count'] for t in trends]
+    trends_sent = ExchangeRequest.objects.filter(sender=request.user, created_at__gte=datetime.now()-timedelta(days=7)) \
+                        .values('status') \
+                        .annotate(count=Count('id')) \
+                        .order_by('status')
 
-    # Generate the bar graph
-    plt.figure(figsize=(10, 6))
-    plt.bar(statuses, counts, color=['green', 'red', 'blue'])  # Use different colors for each status
-    plt.title('Exchange Request Trend (Last 7 Days)')
+    # Initialize counts for received and sent requests
+    received_counts = {'Accepted': 0, 'Rejected': 0, 'Cancelled': 0, 'Pending': 0}
+    sent_counts = {'Accepted': 0, 'Rejected': 0, 'Cancelled': 0, 'Pending': 0}
+
+    # Define colors for each status
+    status_colors = {'Accepted': 'green', 'Rejected': 'red', 'Cancelled': 'blue', 'Pending': 'gray'}
+
+    # Populate counts for received requests
+    for trend in trends_received:
+        status = trend['status']
+        count = trend['count']
+        received_counts[status] = count
+
+    # Populate counts for sent requests
+    for trend in trends_sent:
+        status = trend['status']
+        count = trend['count']
+        sent_counts[status] = count
+
+    # Generate the bar graphs
+    plt.figure(figsize=(12, 6))
+
+    # Plot for received requests
+    plt.subplot(1, 2, 1)
+    plt.bar(received_counts.keys(), received_counts.values(), color=[status_colors.get(status, 'gray') for status in received_counts.keys()])
+    plt.title('Received Exchange Request Trend (Last 7 Days)')
     plt.xlabel('Status')
     plt.ylabel('Number of Requests')
     plt.xticks(rotation=45)
+
+    # Plot for sent requests
+    plt.subplot(1, 2, 2)
+    plt.bar(sent_counts.keys(), sent_counts.values(), color=[status_colors.get(status, 'gray') for status in sent_counts.keys()])
+    plt.title('Sent Exchange Request Trend (Last 7 Days)')
+    plt.xlabel('Status')
+    plt.ylabel('Number of Requests')
+    plt.xticks(rotation=45)
+
     plt.tight_layout()
 
     # Save the plot as a PNG image
@@ -136,7 +168,6 @@ def trend_analysis(request):
 
     # Return the plot as an HTTP response
     return HttpResponse(buffer.getvalue(), content_type='image/png')
-
 
 
 

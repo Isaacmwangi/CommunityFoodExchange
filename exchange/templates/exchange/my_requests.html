@@ -1,26 +1,37 @@
-<!-- exchange\templates\exchange\my_requests.html -->
-
+<!-- exchange/templates/exchange/my_requests.html -->
 
 {% extends 'accounts/base.html' %}
 
 {% block content %}
 <div class="container">
   <h1>My Requests</h1>
-  <p>Total Requests: {{ sent_requests.count }}</p>
+  <p>My Total Requests: {{ sent_requests.count }}</p>
   
   <div class="exchange-requests">
     {% if sent_requests %}
       <div class="sent-requests">
         {% for request in sent_requests %}
-          <div class="exchange-request">
-            <p><strong>Item: </strong>{{ request.listing.item_name }}</p>
-            <p><strong>Status: </strong>{{ request.status }}</p>
-            <p><strong>Requesting Person: </strong>{{ request.sender }}</p>
-            <p><strong>Message: </strong>{{ request.message }}</p>
-            <p><strong>Time: </strong>{{ request.created_at }}</p>
-            <!-- Add button to view exchange request details -->
-            <a href="{% url 'exchange_request_detail' request.id %}" class="btn btn-primary" style="text-decoration: none;">View Details</a>
+          <div class="exchange-request card">
+            <div class="card-body">
+              <h3 class="card-title">{{ request.listing.item_name }}</h3>
+              <img src="{{ request.listing.image.url }}" class="detail-image img-fluid" alt="{{ request.listing.item_name }}">
+              <p class="card-text"><strong>Status: </strong>
+                {% if request.status == 'Accepted' %}
+                  <span class="badge badge-success">{{ request.status }}</span>
+                {% elif request.status == 'Rejected' %}
+                  <span class="badge badge-danger">{{ request.status }}</span>
+                {% elif request.status == 'Cancelled' %}
+                  <span class="badge badge-warning">{{ request.status }}</span>
+                {% endif %}
+              </p>
+              <p class="card-text"><strong>Requesting Person: </strong>{{ request.sender }}</p>
+              <p class="card-text"><strong>Message: </strong>{{ request.message }}</p>
+              <p class="card-text"><strong>Time: </strong>{{ request.created_at }}</p>
+              <!-- Add button to view exchange request details -->
+              <a href="{% url 'exchange_request_detail' request.id %}" class="btn btn-primary" style="text-decoration: none;">View Details</a>
+            </div>
           </div>
+          <br> <!-- Add spacing between request items -->
         {% endfor %}
       </div>
     {% else %}

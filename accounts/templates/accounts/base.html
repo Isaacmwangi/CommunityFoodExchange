@@ -1,9 +1,14 @@
+{% load static %} 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}FHarvest Community Food Exchange{% endblock %}</title>
-    {% load static %}
+    <title>FHarvest Community Food Exchange</title>
+
+    <!-- Set favicon -->
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'path/to/compiled/bootstrap-icons.css' %}">
@@ -38,7 +43,7 @@
             margin-right: 10px; /* Add some spacing between logo and text */
         }
 
-            footer {
+        footer {
             background-color: #f8f9fa;
             color: #333;
             padding: 20px;
@@ -61,6 +66,7 @@
             <img src="{% static 'logo.png' %}" alt="Logo" class="logo"> <!-- Add the logo -->
             <a href="{% url 'home' %}" style="color: inherit; text-decoration: none;">
                 FHarvest
+            </a>
         </div>
         <div class="nav-links">
             {% if user.is_authenticated %}

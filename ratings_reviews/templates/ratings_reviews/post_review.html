@@ -1,0 +1,29 @@
+<!-- ratings_reviews/templates/ratings_reviews/post_review.html -->
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="container">
+  <h2>Post Your Review</h2>
+  {% if not user_reviews.exists %}  <!-- Check if user has already posted a review -->
+  <form method="post" action="{% url 'post_review' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="rating">Rating:</label>
+      <select name="rating" id="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="comment">Comment:</label>
+      <textarea name="comment" id="comment" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+  </form>
+  {% else %}
+  <p>You have already submitted a review.</p>
+  {% endif %}
+</div>
+{% endblock %}

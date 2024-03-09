@@ -1,0 +1,12 @@
+<!-- ratings_reviews/templates/ratings_reviews/edit_review.html -->
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="container">
+  <h2>Edit Review</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Display form fields -->
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

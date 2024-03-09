@@ -11,8 +11,10 @@ from django.contrib.auth import logout
 from listings.models import Listing  
 from exchange.models import ExchangeRequest 
 from messaging.models import Message 
-from messaging.models import Conversation
 from django.db.models import Max
+from events.models import Event  
+# from ratings_reviews.models import Rating
+from ratings_reviews.models import Review 
 
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
@@ -41,9 +43,11 @@ def user_signup(request):
 def profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
+        user_reviews = Review.objects.filter(reviewed_user=request.user)
     except Profile.DoesNotExist:
         return redirect('profile_create')  # Redirect to profile creation if profile doesn't exist
-    return render(request, 'accounts/profile.html', {'profile': profile})
+    return render(request, 'accounts/profile.html', {'profile': profile, 'user_reviews': user_reviews})
+
 
 @login_required
 def profile_create(request):
@@ -81,10 +85,11 @@ def user_logout(request):  # Define a user_logout view
     logout(request)  # Call the logout function
     return redirect('home')  # Redirect to the home page after logout
 
+
 @login_required
 def home(request):
     featured_listings = Listing.objects.all()  # Fetch all listings
-    upcoming_events = []  # Assuming you have logic to retrieve upcoming events
+    upcoming_events = Event.objects.all().order_by('date')  # Fetch all upcoming events
     exchange_requests = ExchangeRequest.objects.filter(receiver=request.user)  # Fetch exchange requests
     action_message = request.session.pop('action_message', None)  # Get action message from session
     
@@ -94,14 +99,20 @@ def home(request):
     latest_conversation = request.user.conversations.annotate(latest_message_timestamp=Max('messages__timestamp')).order_by('-latest_message_timestamp').first()
     latest_conversation_id = latest_conversation.id if latest_conversation else None
     
+    # Fetch all user reviews and order them by the creation date in descending order
+    user_reviews = Review.objects.all().order_by('-created_at')
+    
     return render(request, 'accounts/home.html', {
         'featured_listings': featured_listings,
-        'upcoming_events': upcoming_events,
+        'upcoming_events': upcoming_events,  # Include upcoming_events in the context
         'unread_messages_count': unread_messages_count,
         'exchange_requests': exchange_requests,
         'action_message': action_message,
         'latest_conversation_id': latest_conversation_id,
+        'user_reviews': user_reviews,  # Pass user_reviews to the template
     })
+
+
 
 def custom_404_view(request, exception):
     return render(request, '404.html', status=404)

@@ -1,0 +1,26 @@
+<!-- events/templates/events/event_detail.html -->
+
+{% extends 'accounts/base.html' %}
+{% block content %}
+<div class="event-detail">
+    <h1>{{ event.event_name }}</h1>
+    <p>{{ event.description }}</p>
+    <p>Date: {{ event.date }}</p>
+    <p>Location: {{ event.location }}</p>
+    
+    {% if user.is_staff %}
+    <form id="delete-form" action="{% url 'delete_event' event.id %}" method="POST">
+        {% csrf_token %}
+        <button id="delete-button" type="button">Delete Event</button>
+    </form>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById("delete-button").addEventListener("click", function() {
+        if (confirm("Are you sure you want to delete this event?")) {
+            document.getElementById("delete-form").submit();
+        }
+    });
+</script>
+{% endblock %}

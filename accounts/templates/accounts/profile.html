@@ -12,6 +12,20 @@
         <p>Location: {{ profile.location }}</p>
         <p>Dietary Preferences: {{ profile.dietary_preferences }}</p>
         <p>Food Allergies: {{ profile.food_allergies }}</p>
+        <h2>User Reviews</h2>
+        <div class="user-reviews">
+            {% if user_reviews %}
+                {% for review in user_reviews %}
+                    <div class="review">
+                        <p>Reviewer: {{ review.reviewer.username }}</p>
+                        <p>Rating: {{ review.rating }}</p>
+                        <p>Comment: {{ review.comment }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No reviews found.</p>
+            {% endif %}
+        </div>
     {% else %}
         <p>No profile found for the current user.</p>
         <a href="{% url 'profile_create' %}">Create Profile</a>

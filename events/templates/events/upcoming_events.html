@@ -12,6 +12,33 @@
       <h3><a href="{% url 'event_detail' event.id %}">{{ event.event_name }}</a></h3>
       <p>Date: {{ event.date }}</p>
       <p>Location: {{ event.location }}</p>
+    
+    
+    <!-- Schema Markup for Each Event -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "Event Name",
+        "description": "Event Description",
+        "startDate": "2024-03-09T19:00",
+        "endDate": "2024-03-09T21:00",
+        "location": {
+          "@type": "Place",
+          "name": "Event Location Name",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Event St",
+            "addressLocality": "City",
+            "addressRegion": "State",
+            "postalCode": "12345",
+            "addressCountry": "Country"
+          }
+        }
+      }
+      </script>
+      
+    
     </li>
     {% endfor %}
   </ul>

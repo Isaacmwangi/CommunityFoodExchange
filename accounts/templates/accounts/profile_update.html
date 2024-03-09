@@ -2,10 +2,11 @@
 
 {% extends 'accounts/base.html' %}
 {% block content %}
-    <h1>Update Profile</h1>
+<a href="{% url 'profile' %}" class="btn btn-secondary">See My Profile</a>
+<h1>Update Profile</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Update Profile</button>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 {% endblock %}

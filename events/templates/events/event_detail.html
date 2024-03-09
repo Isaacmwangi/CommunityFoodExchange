@@ -16,6 +16,21 @@
     {% endif %}
 </div>
 
+<!-- Schema Markup for Event -->
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "{{ event.event_name }}",
+      "startDate": "{{ event.date }}",
+      "location": {
+        "@type": "Place",
+        "name": "{{ event.location }}"
+      },
+      "description": "{{ event.description }}"
+    }
+    </script>
+    
 <script>
     document.getElementById("delete-button").addEventListener("click", function() {
         if (confirm("Are you sure you want to delete this event?")) {

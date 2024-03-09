@@ -12,6 +12,9 @@
         <p>Location: {{ profile.location }}</p>
         <p>Dietary Preferences: {{ profile.dietary_preferences }}</p>
         <p>Food Allergies: {{ profile.food_allergies }}</p>
+        
+        <a href="{% url 'profile_create' %}" class="btn btn-primary">Create Profile</a>
+        
         <h2>User Reviews</h2>
         <div class="user-reviews">
             {% if user_reviews %}
@@ -26,8 +29,8 @@
                 <p>No reviews found.</p>
             {% endif %}
         </div>
+        <a href="{% url 'profile_update' %}" class="btn btn-primary">Update Profile</a>
     {% else %}
         <p>No profile found for the current user.</p>
-        <a href="{% url 'profile_create' %}">Create Profile</a>
     {% endif %}
 {% endblock %}

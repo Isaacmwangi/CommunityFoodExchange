@@ -21,15 +21,19 @@
       <div class="listing-card">
         <img src="{{ listing.image.url }}" alt="{{ listing.item_name }}">
         <div class="listing-details">
-          <h3>{{ listing.item_name }}</h3>
+          <h2>{{ listing.item_name }}</h2>
           <p>{{ listing.description }}</p>
           <p>Quantity: {{ listing.quantity }}</p>
           <p>Expiration Date: {{ listing.expiration_date }}</p>
-          <p>Posted by: {% if user == listing.user %}My Post{% else %}{{ listing.user.username }}{% endif %}</p>
+          <h3>{% if user == listing.user %}My Post{% else %}Posted by: {{ listing.user.username }}{% endif %}</h3>
           <div class="actions">
-            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-exchange-request">View Details</a> </div></br>
+            <button type="button" class="btn btn-info">
+              <a href="{% url 'listing_detail' listing.id %}" class="btn btn-info btn-lg">View Details</a> 
+            </button></div></br>
             {% if user.is_authenticated and user != listing.user %}
-              <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-exchange-request">Send Exchange Request</a>
+            <button type="button" class="btn btn-secondary"> 
+              <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-secondary btn-lg">Send Exchange Request</a>
+            </button>
             {% endif %}
           </div>
         </div>
@@ -51,7 +55,7 @@
     <div class="latest-messages-section">
       {% if unread_messages_count > 0 %}
       <div class="request-messages-section">
-        <a href="{% url 'exchange_requests' %}" class="btn btn-view-request-messages">View My Exchange Requests</a>
+        <a href="{% url 'exchange_requests' %}" class="btn btn-success">View My Exchange Requests</a>
     </div>
     <div class="notification">
         <a href="{% url 'exchange_requests' %}" class="btn btn-message">
@@ -87,7 +91,7 @@
     <!-- Display the "Create Event" button outside the loop -->
     {% if user.is_authenticated and user.is_staff %}
     <div class="create-event">
-      <a href="{% url 'create_event' %}" class="btn btn-create-event">Create Event</a>
+      <a href="{% url 'create_event' %}" class="btn btn-success">Create Event</a>
     </div>
     {% endif %}
   </section>
@@ -115,7 +119,7 @@
       {% if user.is_staff or user == review.reviewer %}
         <div class="review-actions">
           <a href="{% url 'edit_review' review.id %}" class="btn btn-edit-review">Edit</a>
-          <a href="{% url 'delete_review' review.id %}" class="btn btn-delete-review">Delete</a>
+          <a href="{% url 'delete_review' review.id %}" class="btn btn-danger">Delete</a>
         </div>
       {% endif %}
     </div>
@@ -132,21 +136,27 @@
     <form method="post" action="{% url 'post_review' %}">
       {% csrf_token %}
       <div class="form-group">
-        <label for="rating">Rating:</label>
-        <select name="rating" id="rating">
-          <option value="1">1</option>
+      <h3><label for="rating">Rating:</label></h3>
+    <h2>
+    <select name="rating" id="rating">
+          <h2><option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-        </select>
+          </h2>
+      </select>
+    </h2>
+
       </div>
       <div class="form-group">
         <label for="comment">Comment:</label>
         <textarea name="comment" id="comment" rows="4"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Submit Review</button>
-    </form>
+    <h2>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+  </h2>
+</form>
   </section>
   {% endif %}
 </div>

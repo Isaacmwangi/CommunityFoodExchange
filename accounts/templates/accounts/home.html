@@ -3,7 +3,6 @@
 {% extends 'accounts/base.html' %}
 {% load static %}
 {% block content %}
-<div class="container">
   <div class="hero-section">
     <div class="hero-content">
         <h1 class="hero-title">Welcome to FHarvest Community Food Exchange</h1>
@@ -36,11 +35,13 @@
       </div>
       {% endfor %}
     </div>
-    <div class="create-listing">
+
+
+  </br></br>
+  <div class="create-listing">
       <a href="{% url 'listing_create' %}" class="btn btn-add-item">Add an Item</a>
     </div>
   </section>
-
 
   <section class="request-messages-section">
     <div class="latest-messages-section">
@@ -58,7 +59,9 @@
       {% endif %}
     </div>
   </section>
-  
+</br></br>
+
+
   <section class="events-section">
     <h2>Upcoming Events</h2>
     <ul class="events-list">
@@ -81,10 +84,14 @@
     {% if user.is_authenticated and user.is_staff %}
     <div class="create-event">
       <a href="{% url 'create_event' %}" class="btn btn-create-event">Create Event</a>
-    </div>
+    </br></br>
+  </div>
     {% endif %}
   </section>
-  
+</br></br>
+
+
+<div class="container">
   <section class="reviews-section">
     <h2>Reviews</h2>
     {% for review in user_reviews %}
@@ -109,9 +116,11 @@
       {% endif %}
     </div>
     {% endfor %}
+  </br></br>
   </section>
-  
-  <!-- Add a form for users to post reviews -->
+</br></br>
+
+<!-- Add a form for users to post reviews -->
   {% if user_reviews %}
   <section class="post-review-section">
     <h2>Post Your Review</h2>
@@ -134,6 +143,8 @@
       <button type="submit" class="btn btn-primary">Submit Review</button>
     </form>
   </section>
+</div>
+
   {% endif %}
 </div>
 {% endblock %}

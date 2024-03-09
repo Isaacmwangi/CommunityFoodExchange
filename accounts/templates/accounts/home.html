@@ -136,28 +136,23 @@
     <form method="post" action="{% url 'post_review' %}">
       {% csrf_token %}
       <div class="form-group">
-      <h3><label for="rating">Rating:</label></h3>
-    <h2>
-    <select name="rating" id="rating">
-          <h2><option value="1">1</option>
+        <label for="rating"><h3>Rating:</h3></label>
+        <select name="rating" id="rating" class="form-control">
+          <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-          </h2>
-      </select>
-    </h2>
-
+        </select>
       </div>
       <div class="form-group">
-        <label for="comment">Comment:</label>
-        <textarea name="comment" id="comment" rows="4"></textarea>
+        <label for="comment"><h3>Comment:</h3></label>
+        <textarea name="comment" id="comment" rows="4" class="form-control"></textarea>
       </div>
-    <h2>
-    <button type="submit" class="btn btn-primary">Submit Review</button>
-  </h2>
-</form>
+      <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
   </section>
+  
   {% endif %}
 </div>
 {% endblock %}

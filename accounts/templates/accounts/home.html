@@ -19,7 +19,7 @@
     <div class="listings-grid">
       {% for listing in featured_listings %}
       <div class="listing-card">
-        <img src="{{ listing.image.url }}" alt="Surplus Food Items for Exchange - {{ listing.item_name }}">
+        <img src="{{ listing.image.url }}" alt="{{ listing.item_name }}">
         <div class="listing-details">
           <h3>{{ listing.item_name }}</h3>
           <p>{{ listing.description }}</p>
@@ -27,9 +27,9 @@
           <p>Expiration Date: {{ listing.expiration_date }}</p>
           <p>Posted by: {% if user == listing.user %}My Post{% else %}{{ listing.user.username }}{% endif %}</p>
           <div class="actions">
-            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-view-details">View Details</a> </div>
+            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-exchange-request">View Details</a> </br></br>
             {% if user.is_authenticated and user != listing.user %}
-          </br><a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-exchange-request">Send Exchange Request</a> </br>
+              <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-exchange-request">Send Exchange Request</a>
             {% endif %}
           </div>
         </div>
@@ -112,7 +112,7 @@
   </section>
   
   <!-- Add a form for users to post reviews -->
-  {% if not user_reviews.exists %}
+  {% if user_reviews %}
   <section class="post-review-section">
     <h2>Post Your Review</h2>
     <form method="post" action="{% url 'post_review' %}">

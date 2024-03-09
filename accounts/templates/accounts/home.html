@@ -27,7 +27,7 @@
           <p>Expiration Date: {{ listing.expiration_date }}</p>
           <p>Posted by: {% if user == listing.user %}My Post{% else %}{{ listing.user.username }}{% endif %}</p>
           <div class="actions">
-            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-exchange-request">View Details</a> </br></br>
+            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-exchange-request">View Details</a> </div></br>
             {% if user.is_authenticated and user != listing.user %}
               <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-exchange-request">Send Exchange Request</a>
             {% endif %}
@@ -42,10 +42,11 @@
   <div class="create-listing">
       <a href="{% url 'listing_create' %}" class="btn btn-add-item">Add an Item</a>
     </div>
+  </div></br>
   </section>
 </div>
-<div class="container">
 
+</div></br></div></br></div></br></div></br>
   <section class="request-messages-section">
     <div class="latest-messages-section">
       {% if unread_messages_count > 0 %}

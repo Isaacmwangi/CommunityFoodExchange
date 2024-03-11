@@ -15,14 +15,19 @@ from django.db.models import Max
 from events.models import Event  
 # from ratings_reviews.models import Rating
 from ratings_reviews.models import Review 
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
+    form_class = AuthenticationForm  # Set the form class explicitly
 
-    def form_valid(self, form):
-        """If the form is valid, redirect to the home page."""
-        login(self.request, form.get_user())
-        return redirect('home')  # Redirect to the home page
+    def form_invalid(self, form):
+        """If the form is invalid, render the login form with error messages."""
+        messages.error(self.request, 'Invalid username or password. Please try again.')
+        return self.render_to_response(self.get_context_data(form=form))
+    
+
 
 class UserLogoutView(LogoutView):
     template_name = 'accounts/logout.html'

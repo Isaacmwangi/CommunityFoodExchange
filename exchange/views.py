@@ -15,7 +15,7 @@ from django.conf import settings
 import matplotlib
 matplotlib.use('Agg')  # Use Agg backend to avoid "RuntimeError: main thread is not in main loop"
 from django.http import Http404
-
+from django.contrib import messages 
 
 @login_required
 def send_exchange_request(request, pk):
@@ -87,6 +87,19 @@ def cancelled_requests(request):
     cancelled_requests = ExchangeRequest.objects.filter(receiver=request.user, status='Cancelled').order_by('-created_at')
     cancelled_count = cancelled_requests.count()
     return render(request, 'exchange/cancelled_requests.html', {'cancelled_requests': cancelled_requests, 'cancelled_count': cancelled_count})
+
+@login_required
+def cancel_exchange_request(request, pk, request_id):
+    listing = get_object_or_404(Listing, pk=pk)
+    exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
+    if exchange_request.listing != listing or listing.user != request.user:
+        return redirect('home')
+    if request.method == 'POST':
+        exchange_request.status = 'Cancelled'
+        exchange_request.save()
+        messages.success(request, 'Exchange request cancelled successfully.')
+        return redirect('listing_detail', pk=pk)
+    return render(request, 'exchange/cancel_exchange_request.html', {'exchange_request': exchange_request})
 
 
 
@@ -193,6 +206,9 @@ def manage_exchange_requests(request, pk):
     is_owner = listing.user == request.user
     if not is_owner:
         return redirect('home')
+
+    form = CancelExchangeRequestForm()  # Define the form outside the if block
+
     if request.method == 'POST':
         request_id = request.POST.get('request_id')
         action = request.POST.get('action')
@@ -216,16 +232,18 @@ def manage_exchange_requests(request, pk):
             return redirect('conversation_detail', conversation_id=conversation.id)
         elif action == 'cancel':
             exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-            form = CancelExchangeRequestForm(request.POST, instance=exchange_request)
-            if form.is_valid():
-                form.save()
-                exchange_request.status = 'Cancelled'
-                exchange_request.save()
-                return redirect('listing_detail', pk=pk)
-    else:
-        form = CancelExchangeRequestForm()
+            if request.method == 'POST':
+                form = CancelExchangeRequestForm(request.POST, instance=exchange_request)
+                if form.is_valid():
+                    exchange_request.status = 'Cancelled'
+                    exchange_request.save()
+                    messages.success(request, 'Exchange request cancelled successfully.')
+                    return redirect('listing_detail', pk=pk)
+            else:
+                # No need to re-define form here, it's already defined outside
+                return render(request, 'exchange/cancel_exchange_request.html', {'form': form, 'exchange_request': exchange_request})
+    # Remove the else block here, as form is already defined above
     return render(request, 'exchange/manage_exchange_requests.html', {'listing': listing, 'exchange_requests': exchange_requests, 'form': form})
-
 
 
 
@@ -244,17 +262,22 @@ def accept_exchange_request(request, pk, request_id):
 def cancel_exchange_request(request, pk, request_id):
     listing = get_object_or_404(Listing, pk=pk)
     exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-    if exchange_request.listing != listing or listing.user != request.user:
+    if exchange_request.listing != listing or exchange_request.sender != request.user:
         return redirect('home')
     if request.method == 'POST':
-        form = CancelExchangeRequestForm(request.POST, instance=exchange_request)
-        if form.is_valid():
-            form.save()
-            exchange_request.status = 'Cancelled'
-            exchange_request.save()
-            return redirect('listing_detail', pk=pk)
-    else:
-        form = CancelExchangeRequestForm(instance=exchange_request)
-    return render(request, 'exchange/cancel_exchange_request.html', {'form': form})
+        exchange_request.delete()
+        messages.success(request, 'Exchange request cancelled successfully.')
+        return redirect('listing_detail', pk=pk)
+    return render(request, 'exchange/cancel_exchange_request.html', {'exchange_request': exchange_request})
 
-
+@login_required
+def delete_exchange_request(request, pk, request_id):
+    listing = get_object_or_404(Listing, pk=pk)
+    exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
+    if exchange_request.listing != listing or exchange_request.sender != request.user:
+        return redirect('home')
+    if request.method == 'POST':
+        exchange_request.delete()
+        messages.success(request, 'Exchange request deleted successfully.')
+        return redirect('manage_exchange_requests', pk=pk)
+    return render(request, 'exchange/delete_exchange_request.html', {'exchange_request': exchange_request})

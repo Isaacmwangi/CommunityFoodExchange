@@ -20,16 +20,20 @@
       {% for listing in featured_listings %}
       <div class="listing-card">
         <img src="{{ listing.image.url }}" alt="{{ listing.item_name }}">
-        <div class="listing-details">
-          <h2>{{ listing.item_name }}</h2>
-          <p>{{ listing.description }}</p>
-          <p>Quantity: {{ listing.quantity }}</p>
-          <p>Expiration Date: {{ listing.expiration_date }}</p>
-          <h3>{% if user == listing.user %}My Post{% else %}Posted by: {{ listing.user.username }}{% endif %}</h3>
-          <div class="actions">
-            <button type="button" class="btn btn-info">
-              <a href="{% url 'listing_detail' listing.id %}" class="btn btn-info btn-lg">View Details</a> 
-            </button></div></br>
+        <!-- listings/templates/listings/listing_detail.html -->
+<div class="listing-details">
+  <h2>{{ listing.item_name }}</h2>
+  <p>{{ listing.description }}</p>
+  <p><strong>Preferred Exchange Method: </strong>{{ listing.preferred_exchange_method }}</p>
+  <p> <strong>Quantity: </strong>{{ listing.quantity }}</p>
+  <p><strong>Expiration Date: </strong>{{ listing.expiration_date }}</p>
+  <h3>{% if user == listing.user %}My Post{% else %}Posted by: {{ listing.user.username }}{% endif %}</h3>
+  <div class="actions">
+    <button type="button" class="btn btn-info">
+      <a href="{% url 'listing_detail' listing.id %}" class="btn btn-info btn-lg">View Details</a> 
+    </button>
+  </div>
+</br>
             {% if user.is_authenticated and user != listing.user %}
             <button type="button" class="btn btn-secondary"> 
               <a href="{% url 'send_exchange_request' listing.id %}" class="btn btn-secondary btn-lg">Send Exchange Request</a>

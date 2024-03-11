@@ -1,4 +1,6 @@
-{% extends 'accounts/base.html' %}
+<!-- listings\templates\listings\listing_detail.html -->
+
+    {% extends 'accounts/base.html' %}
 {% block content %}
 <div class="listing-detail">
     <h1>{{ listing.item_name }}</h1>
@@ -53,21 +55,32 @@
                     <button type="submit" name="action" value="accept" class="btn btn-accept"><i class="fas fa-check"></i> Accept</button>
                     <button type="submit" name="action" value="reject" class="btn btn-reject"><i class="fas fa-times"></i> Reject</button>
                     <button type="submit" name="action" value="message" class="btn btn-message"><i class="fas fa-comment"></i> Message</button>
-                    <button type="submit" name="action" value="delete" class="btn btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
+                    <!-- <button type="submit" name="action" value="delete" class="btn btn-delete"><i class="fas fa-trash-alt"></i> Delete</button> -->
                 </form>
-            {% endif %}
-            {% if user == request.sender %}
-                <form method="post" action="{% url 'cancel_exchange_request' listing.id request.id %}">
+<!--                 
+                <br>
+                <form method="post" action="{% url 'delete_exchange_request' pk=listing.id request_id=request.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-cancel-request"><i class="fas fa-ban"></i> Cancel Request</button>
+                    <button type="submit" class="btn btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
                 </form>
+                 -->
+                
             {% endif %}
+            <!-- Cancel request button for the sender of the request -->
+            {% if user == request.sender %}
+            <form method="post" action="{% url 'cancel_exchange_request' listing.id request.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-cancel-request"><i class="fas fa-ban"></i> Cancel Request</button>
+            </form>
+            {% endif %}
+
         </li>
         {% empty %}
         <li>No exchange requests yet.</li>
         {% endfor %}
     </ul>
 </div>
+
 
 <script>
     // Confirmation prompt before deleting a listing

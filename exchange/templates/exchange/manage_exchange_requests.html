@@ -44,7 +44,7 @@
                       <button type="submit" name="action" value="accept" class="btn btn-primary">Accept</button>
                       <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
                       <button type="submit" name="action" value="message" class="btn btn-secondary">Message</button>
-                      <button type="submit" name="action" value="cancel" class="btn btn-warning">Cancel</button>
+                      <button type="button" class="btn btn-warning" onclick="confirmCancel('{{ request.id }}')">Cancel</button>
                     </form>
                   {% endif %}
                 </div>
@@ -57,5 +57,16 @@
       {% endif %}
     </div>
   </div>
+  
 </div>
+<script>
+  function confirmCancel(requestId) {
+      if (confirm("Are you sure you want to cancel this exchange request?")) {
+          document.getElementById('request_id').value = requestId;
+          document.getElementById('action').value = 'cancel';
+          document.getElementById('cancelForm').submit();
+      }
+  }
+  </script>
+  
 {% endblock %}

@@ -13,7 +13,7 @@ from exchange.models import ExchangeRequest
 from messaging.models import Message 
 from django.db.models import Max
 from events.models import Event  
-# from ratings_reviews.models import Rating
+from django.urls import reverse_lazy
 from ratings_reviews.models import Review 
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -26,7 +26,10 @@ class UserLoginView(LoginView):
         """If the form is invalid, render the login form with error messages."""
         messages.error(self.request, 'Invalid username or password. Please try again.')
         return self.render_to_response(self.get_context_data(form=form))
-    
+
+    def get_success_url(self):
+        """Redirect to the home page after successful login."""
+        return reverse_lazy('home')
 
 
 class UserLogoutView(LogoutView):

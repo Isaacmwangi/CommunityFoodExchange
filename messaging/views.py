@@ -45,7 +45,7 @@ def conversation_detail(request, conversation_id):
 def send_message(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
     if request.method == 'POST':
-        form = MessageForm(request.POST, request.FILES)
+        form = MessageForm(request.POST, request.FILES)  # Include request.FILES for file uploads
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user
@@ -55,4 +55,3 @@ def send_message(request, conversation_id):
     else:
         form = MessageForm()
     return render(request, 'messaging/send_message.html', {'form': form})
-

@@ -12,9 +12,11 @@
         <p>Location: {{ profile.location }}</p>
         <p>Dietary Preferences: {{ profile.dietary_preferences }}</p>
         <p>Food Allergies: {{ profile.food_allergies }}</p>
-        
+        <a href="{% url 'update_username' %}" class="btn btn-primary">Update Username</a>
+        <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
         <a href="{% url 'profile_create' %}" class="btn btn-primary">Create Profile</a>
-        
+        <a href="{% url 'profile_update' %}" class="btn btn-primary">Update Profile</a>
+
         <h2>User Reviews</h2>
         <div class="user-reviews">
             {% if user_reviews %}
@@ -29,7 +31,6 @@
                 <p>No reviews found.</p>
             {% endif %}
         </div>
-        <a href="{% url 'profile_update' %}" class="btn btn-primary">Update Profile</a>
     {% else %}
         <p>No profile found for the current user.</p>
     {% endif %}

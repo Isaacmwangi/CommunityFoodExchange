@@ -18,6 +18,57 @@ from ratings_reviews.models import Review
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .forms import ProfileForm, UsernameUpdateForm
+from django.contrib.auth.forms import PasswordResetForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def send_password_reset_email(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            form.save(
+                request=request,
+                use_https=request.is_secure(),
+                email_template_name='accounts/password_reset_email.html',
+                extra_email_context={'custom_variable': 'value'},  # Additional context if needed
+            )
+            messages.success(request, 'Password reset email sent. Check your inbox.')
+            return redirect('login')  # Redirect to login page or any other page
+    else:
+        form = PasswordResetForm()
+    return render(request, 'accounts/password_reset_form.html', {'form': form})
+
+
+@login_required
+def update_username(request):
+    if request.method == 'POST':
+        form = UsernameUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your username has been updated successfully.')
+            return redirect('profile')
+    else:
+        form = UsernameUpdateForm(instance=request.user)
+    return render(request, 'accounts/username_update.html', {'form': form})
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Update the user's session to prevent logging out
+            messages.success(request, 'Your password has been changed successfully.')
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})
+
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
     form_class = AuthenticationForm  # Set the form class explicitly

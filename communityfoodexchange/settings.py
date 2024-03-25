@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+# Import the required modules
+from django.core.mail.backends.smtp import EmailBackend
 
 from pathlib import Path
 import os
@@ -195,4 +197,18 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Email backend configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'isaacnjuguna2001@gmail.com'
+EMAIL_HOST_PASSWORD = 'fFJHKQUTbv0NLMIB'
+DEFAULT_FROM_EMAIL = 'isaacnjuguna2001@gmail.com'
+EMAIL_TIMEOUT = 30
+EMAIL_LOGGING = True  # Enable email logging
+
+
+PASSWORD_RESET_EMAIL_TEMPLATE_NAME = 'accounts/password_reset_email.html'
 

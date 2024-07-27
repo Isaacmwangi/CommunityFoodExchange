@@ -6,6 +6,7 @@ from ratings_reviews.forms import ReviewForm  # Import ReviewForm from ratings_r
 from .models import Profile
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.core.validators import EmailValidator
 
 class UsernameUpdateForm(UserChangeForm):
     username = forms.CharField(
@@ -29,3 +30,15 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['location', 'dietary_preferences', 'food_allergies', 'email', 'first_name', 'last_name', 'mobile_number']
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        validators=[EmailValidator()],
+        required=True,
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']

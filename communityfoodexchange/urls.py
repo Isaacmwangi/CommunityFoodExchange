@@ -15,7 +15,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # communityfoodexchange/urls.py
-
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -24,6 +23,7 @@ from django.urls import path, include
 from accounts import views  # Make sure to import the views module
 from accounts import views as accounts_views  # Import the views module from accounts app
 from ratings_reviews import views as ratings_reviews_views 
+# from search.views import search_listings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('post_review/', ratings_reviews_views.post_review, name='post_review'),
     path('delete_review/<int:review_id>/', ratings_reviews_views.delete_review, name='delete_review'),
     path('edit_review/<int:review_id>/', ratings_reviews_views.edit_review, name='edit_review'),  # Add this line for edit_review view
+    # path('search/', search_listings, name='search_listings'),
 ]
 
 if settings.DEBUG:

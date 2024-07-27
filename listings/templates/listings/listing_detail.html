@@ -1,6 +1,6 @@
 <!-- listings\templates\listings\listing_detail.html -->
 
-    {% extends 'accounts/base.html' %}
+{% extends 'accounts/base.html' %}
 {% block content %}
 <div class="listing-detail">
     <h1>{{ listing.item_name }}</h1>
@@ -37,7 +37,10 @@
     <ul>
         {% for request in exchange_requests %}
         <li>
-            <p><strong>From:</strong> {% if user == listing.user %}{{ request.sender.username }} - {{ request.sender.profile.location }}{% else %}{{ request.listing.user.username }}{% endif %}</p>
+            <p><strong>Requested By:</strong> {{ request.sender.username }}</p>
+            {% if request.sender.profile.location %}
+                <p><strong>Location:</strong> {{ request.sender.profile.location }}</p>
+            {% endif %}
             <p><strong>Status:</strong> 
                 {% if request.status == 'Accepted' %}
                     <span class="status accepted">Accepted</span>
@@ -55,16 +58,7 @@
                     <button type="submit" name="action" value="accept" class="btn btn-accept"><i class="fas fa-check"></i> Accept</button>
                     <button type="submit" name="action" value="reject" class="btn btn-reject"><i class="fas fa-times"></i> Reject</button>
                     <button type="submit" name="action" value="message" class="btn btn-message"><i class="fas fa-comment"></i> Message</button>
-                    <!-- <button type="submit" name="action" value="delete" class="btn btn-delete"><i class="fas fa-trash-alt"></i> Delete</button> -->
                 </form>
-<!--                 
-                <br>
-                <form method="post" action="{% url 'delete_exchange_request' pk=listing.id request_id=request.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>
-                </form>
-                 -->
-                
             {% endif %}
             <!-- Cancel request button for the sender of the request -->
             {% if user == request.sender %}
@@ -73,14 +67,12 @@
                 <button type="submit" class="btn btn-cancel-request"><i class="fas fa-ban"></i> Cancel Request</button>
             </form>
             {% endif %}
-
         </li>
         {% empty %}
         <li>No exchange requests yet.</li>
         {% endfor %}
     </ul>
 </div>
-
 
 <script>
     // Confirmation prompt before deleting a listing

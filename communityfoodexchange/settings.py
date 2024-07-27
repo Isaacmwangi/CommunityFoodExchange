@@ -62,7 +62,6 @@ INSTALLED_APPS = [
      'listings',
      'exchange',
      'messaging',
-     'search',
      'ratings_reviews', 
      'cloudinary',
      'cloudinary_storage',
@@ -122,7 +121,7 @@ WSGI_APPLICATION = 'communityfoodexchange.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://communityfoodexchange_user:TEP7flT8YiXsRYi9NaAj54i62yLuiCR4@dpg-cngor45a73kc73c4ecsg-a.oregon-postgres.render.com/communityfoodexchange')
+    'default': dj_database_url.config(default='postgresql://remoteworkmanagement_user:xIil3njGWhYAo9tTZOmLfI3XI0vuJgEh@dpg-cqhv1s9u0jms739dqk8g-a.oregon-postgres.render.com/remoteworkmanagement')
 }
 
 

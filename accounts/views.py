@@ -20,12 +20,13 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from .forms import ProfileForm, UsernameUpdateForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+from .forms import CustomUserCreationForm 
 def send_password_reset_email(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
@@ -88,13 +89,21 @@ class UserLogoutView(LogoutView):
 
 def user_signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
+
+            # Send registration email
+            subject = 'Welcome to FreshHarvest Community Exchange'
+            message = 'Thank you for registering with us!'
+            recipient_email = form.cleaned_data['email']
+            sender_email = settings.DEFAULT_FROM_EMAIL
+            send_mail(subject, message, sender_email, [recipient_email])
+
             return redirect('home')  # Redirect to the home page after successful signup and login
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()  # Use the custom form here
     return render(request, 'accounts/signup.html', {'form': form})
 
 

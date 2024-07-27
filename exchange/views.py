@@ -198,16 +198,14 @@ def manage_exchange_requests(request, pk):
     try:
         listing = Listing.objects.get(pk=pk)
     except Listing.DoesNotExist:
-        # Handle the case where the listing with the provided pk does not exist
-        # Redirect the user to the home page or the previous page
-        return redirect('home')  # Or replace 'home' with the appropriate URL name
+        return redirect('home')  # Redirect if listing does not exist
 
     exchange_requests = ExchangeRequest.objects.filter(listing=listing)
     is_owner = listing.user == request.user
     if not is_owner:
         return redirect('home')
 
-    form = CancelExchangeRequestForm()  # Define the form outside the if block
+    form = CancelExchangeRequestForm()
 
     if request.method == 'POST':
         request_id = request.POST.get('request_id')
@@ -224,11 +222,14 @@ def manage_exchange_requests(request, pk):
             return redirect('listing_detail', pk=pk)
         elif action == 'message':
             exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
-            conversation = Conversation.objects.filter(participants__in=[request.user, exchange_request.sender]).first()
+            # Check if conversation already exists between users
+            conversation = exchange_request.conversation
             if not conversation:
-                # If conversation doesn't exist, create a new one
+                # Create new conversation if it doesn't exist
                 conversation = Conversation.objects.create()
                 conversation.participants.add(request.user, exchange_request.sender)
+                exchange_request.conversation = conversation
+                exchange_request.save()
             return redirect('conversation_detail', conversation_id=conversation.id)
         elif action == 'cancel':
             exchange_request = get_object_or_404(ExchangeRequest, pk=request_id)
@@ -240,9 +241,8 @@ def manage_exchange_requests(request, pk):
                     messages.success(request, 'Exchange request cancelled successfully.')
                     return redirect('listing_detail', pk=pk)
             else:
-                # No need to re-define form here, it's already defined outside
                 return render(request, 'exchange/cancel_exchange_request.html', {'form': form, 'exchange_request': exchange_request})
-    # Remove the else block here, as form is already defined above
+
     return render(request, 'exchange/manage_exchange_requests.html', {'listing': listing, 'exchange_requests': exchange_requests, 'form': form})
 
 

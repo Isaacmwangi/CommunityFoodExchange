@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from listings.models import Listing
+from messaging.models import Conversation  # Import the Conversation model
 
 class ExchangeRequest(models.Model):
     STATUS_CHOICES = [
@@ -15,6 +16,7 @@ class ExchangeRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exchange_sent_requests')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='exchange_received_requests')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.SET_NULL, null=True, blank=True)  # Add conversation field
     message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     reason_for_cancellation = models.TextField(blank=True, null=True)

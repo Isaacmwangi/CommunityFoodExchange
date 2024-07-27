@@ -3,7 +3,7 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-<h1>{{ form.instance.pk|default:"Create" }} Listing</h1>
+<h1>{{ form.instance.pk|default:"Add an" }} Item</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">

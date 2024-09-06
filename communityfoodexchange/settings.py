@@ -120,9 +120,15 @@ WSGI_APPLICATION = 'communityfoodexchange.wsgi.application'
 #     }
 # }
 
+# Internal Database URL:
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgresql://remoteworkmanagement_4fty_user:v6AHVMyAcRiP1X4oXk6LhxTBqfXKacdI@dpg-crdbdsbqf0us73b011ig-a/remoteworkmanagement_4fty')
+# }
+# External Database URL:
 DATABASES = {
-    'default': dj_database_url.config(default='postgresql://remoteworkmanagement_user:xIil3njGWhYAo9tTZOmLfI3XI0vuJgEh@dpg-cqhv1s9u0jms739dqk8g-a.oregon-postgres.render.com/remoteworkmanagement')
+    'default': dj_database_url.config(default='postgresql://remoteworkmanagement_4fty_user:v6AHVMyAcRiP1X4oXk6LhxTBqfXKacdI@dpg-crdbdsbqf0us73b011ig-a.oregon-postgres.render.com/remoteworkmanagement_4fty')
 }
+
 
 
 # Password validation
@@ -190,6 +196,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
